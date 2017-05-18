@@ -1,0 +1,21 @@
+apply plugin: 'groovy'
+apply plugin: 'antlr'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    antlr "org.antlr:antlr4:4.5.3"
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'commons-io:commons-io:2.5'
+    compile 'org.projectlombok:lombok:1.16.16'
+    compile 'com.google.guava:guava:21.0'
+    compile 'org.ow2.asm:asm:5.2'
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
+
+generateGrammarSource {
+    arguments += ["-visitor", "-no-listener"]
+    outputDirectory = new File("${buildDir}/generated-src/antlr/main/com/nurkiewicz/tsclass/antlr/parser")
+}
