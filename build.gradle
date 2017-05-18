@@ -1,8 +1,21 @@
 apply plugin: 'groovy'
 apply plugin: 'antlr'
+apply plugin: 'jacoco'
 
 repositories {
     jcenter()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: 'com/nurkiewicz/tsclass/antlr/parser/**')
+        })
+    }
 }
 
 dependencies {
