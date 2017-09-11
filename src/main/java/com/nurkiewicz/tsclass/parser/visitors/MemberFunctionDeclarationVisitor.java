@@ -8,6 +8,7 @@ import com.nurkiewicz.tsclass.parser.ast.Statement;
 
 import java.util.Objects;
 
+import static com.google.common.collect.ImmutableList.of;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 class MemberFunctionDeclarationVisitor extends TypeScriptBaseVisitor<Method> {
@@ -17,7 +18,7 @@ class MemberFunctionDeclarationVisitor extends TypeScriptBaseVisitor<Method> {
         final TypeScriptParser.FunctionSignatureContext sig = ctx.memberFunctionImplementation().functionSignature();
         final String methodName = sig.IDENT().getText();
         final TypeScriptParser.TypeContext typeCtx = sig.returnTypeAnnotation().returnType().type();
-        return new Method(methodName, typeOf(typeCtx), parseBody(ctx));
+        return new Method(methodName, typeOf(typeCtx), of(), parseBody(ctx));
     }
 
     private String typeOf(TypeScriptParser.TypeContext typeCtx) {

@@ -23,7 +23,7 @@ class CodeGeneratorTest extends Specification {
         def generatedClass = new ByteArrayClassLoader().loadClass(bytes)
         generatedClass.name == 'Greeter'
         def instance = generatedClass.newInstance()
-        generatedClass.getMethod("answer").invoke(instance) == 42.0
+        generatedClass.getMethod("answer").invoke(instance) == 42.0d
     }
 
 }
