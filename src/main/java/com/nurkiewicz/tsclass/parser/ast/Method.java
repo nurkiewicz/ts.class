@@ -8,7 +8,7 @@ public class Method {
 
     private final String name;
     private final String type;
-    private final ImmutableList<String> arguments;
+    private final ImmutableList<Parameter> parameters;
     private final ImmutableList<Statement> statements;
 
 }

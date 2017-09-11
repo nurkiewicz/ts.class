@@ -14,7 +14,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should generate empty class'() {
         given:
-        def cls = new ClassDescriptor('Greeter', of(), of(new Method("answer", "number", of())))
+        def cls = new ClassDescriptor('Greeter', of(), of(new Method("answer", "number", of(), of())))
 
         when:
         def bytes = generator.generate(cls)
