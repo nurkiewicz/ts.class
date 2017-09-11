@@ -32,3 +32,5 @@ generateGrammarSource {
     arguments += ["-visitor", "-no-listener"]
     outputDirectory = new File("${buildDir}/generated-src/antlr/main/com/nurkiewicz/tsclass/antlr/parser")
 }
+
+check.dependsOn jacocoTestReport
