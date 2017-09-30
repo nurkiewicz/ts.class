@@ -7,7 +7,7 @@ import lombok.Value;
 public class Method {
 
     private final String name;
-    private final String type;
+    private final Type type;
     private final ImmutableList<Parameter> parameters;
     private final ImmutableList<Statement> statements;
 
