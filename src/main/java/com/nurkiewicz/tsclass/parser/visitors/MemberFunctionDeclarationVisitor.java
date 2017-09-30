@@ -53,7 +53,6 @@ class MemberFunctionDeclarationVisitor extends TypeScriptBaseVisitor<Method> {
 
         @Override
         public List<Parameter> visitRequiredParameter(TypeScriptParser.RequiredParameterContext ctx) {
-            System.out.println("visitRequiredParameter " + ctx.getText());
             final String name = ctx.IDENT().getText();
             final String typeName = ctx.typeAnnotation().type().typeName().moduleOrTypeName().IDENT().getText();
             final Parameter parameter = new Parameter(name, typeName);

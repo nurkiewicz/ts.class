@@ -2,9 +2,9 @@ package com.nurkiewicz.tsclass.parser.visitors;
 
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor;
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser;
-import com.nurkiewicz.tsclass.parser.ast.Expression;
 import com.nurkiewicz.tsclass.parser.ast.ReturnStatement;
 import com.nurkiewicz.tsclass.parser.ast.Statement;
+import com.nurkiewicz.tsclass.parser.ast.expr.Expression;
 
 class SourceElementVisitor extends TypeScriptBaseVisitor<Statement> {
 

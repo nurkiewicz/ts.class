@@ -1,4 +1,4 @@
-package com.nurkiewicz.tsclass.parser.ast;
+package com.nurkiewicz.tsclass.parser.ast.expr;
 
 import lombok.Value;
 

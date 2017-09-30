@@ -1,5 +1,6 @@
 package com.nurkiewicz.tsclass.parser.ast;
 
+import com.nurkiewicz.tsclass.parser.ast.expr.Expression;
 import lombok.Value;
 
 @Value
