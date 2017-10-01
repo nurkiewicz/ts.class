@@ -2,6 +2,7 @@ package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
+import com.nurkiewicz.tsclass.parser.ast.Type
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -14,7 +15,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should generate empty class'() {
         given:
-        def cls = new ClassDescriptor('Greeter', of(), of(new Method("answer", "number", of(), of())))
+        def cls = new ClassDescriptor('Greeter', of(), of(new Method('answer', new Type('number'), of(), of())))
 
         when:
         def bytes = generator.generate(cls)
