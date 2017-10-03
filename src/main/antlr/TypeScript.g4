@@ -744,9 +744,8 @@ shiftExpression
 
 additiveExpression
     : multiplicativeExpression
-    | additiveExpression '+' multiplicativeExpression
-    | additiveExpression '-' multiplicativeExpression
-    ;  
+    | additiveExpression op=('+' | '-') multiplicativeExpression
+    ;
 
 multiplicativeExpression
     : unaryExpression
