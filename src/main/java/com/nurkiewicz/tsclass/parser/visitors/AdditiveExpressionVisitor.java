@@ -8,7 +8,7 @@ import com.nurkiewicz.tsclass.parser.ast.expr.Expression;
 class AdditiveExpressionVisitor extends TypeScriptBaseVisitor<Expression> {
     @Override
     public Expression visitAdditiveExpression(TypeScriptParser.AdditiveExpressionContext ctx) {
-        final Expression right = ctx.accept(new MemberExpressionVisitor());
+        final Expression right = ctx.accept(new MultiplicativeExpressionVisitor());
         if (ctx.additiveExpression() != null) {
             final Expression left = ctx.additiveExpression().accept(this);
             final AdditiveExpression.Operator op = AdditiveExpression.Operator.of(ctx.op.getText());

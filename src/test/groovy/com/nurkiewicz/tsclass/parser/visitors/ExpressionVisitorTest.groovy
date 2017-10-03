@@ -7,12 +7,16 @@ import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
 import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
+import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
 import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator.MINUS
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator.PLUS
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.DIV
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MOD
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MUL
 
 @Unroll
 class ExpressionVisitorTest extends Specification {
@@ -24,7 +28,7 @@ class ExpressionVisitorTest extends Specification {
             identifier.name == 'x'
     }
 
-    def 'should parse #expr'() {
+    def 'should parse additive #expr'() {
         when:
             AdditiveExpression additive = parse(expr)
         then:
@@ -58,6 +62,20 @@ class ExpressionVisitorTest extends Specification {
                     PLUS,
                     new NumberLiteral(5)
             )
+    }
+
+    def 'should parse multiplication #expr'() {
+        when:
+            MultiplicativeExpression multiplicative = parse(expr)
+        then:
+            (multiplicative.left as NumberLiteral).value == x
+            (multiplicative.right as NumberLiteral).value == y
+            multiplicative.operator == operator
+        where:
+            expr      || x | y   | operator
+            '3 * 4'   || 3 | 4   | MUL
+            '7 / 2.5' || 7 | 2.5 | DIV
+            '9 % 4'   || 9 | 4   | MOD
     }
 
     private static Expression parse(String value) {

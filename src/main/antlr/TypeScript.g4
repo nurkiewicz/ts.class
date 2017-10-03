@@ -749,9 +749,7 @@ additiveExpression
 
 multiplicativeExpression
     : unaryExpression
-    | multiplicativeExpression '*' unaryExpression
-    | multiplicativeExpression '/' unaryExpression
-    | multiplicativeExpression '%' unaryExpression
+    | multiplicativeExpression op=('*' | '/' | '%') unaryExpression
     ;
 
 memberExpression
