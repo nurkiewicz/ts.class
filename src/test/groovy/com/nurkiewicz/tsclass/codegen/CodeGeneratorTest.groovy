@@ -5,6 +5,7 @@ import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
 import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
 import com.nurkiewicz.tsclass.parser.ast.Type
+import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -50,6 +51,28 @@ class CodeGeneratorTest extends Specification {
             generatedClass.name == 'Ident'
             def instance = generatedClass.newInstance()
             generatedClass.getMethod("identity", double.class).invoke(instance, 17) == 17
+    }
+
+    def 'should generate function adding two arguments'() {
+        given:
+            Method identityFunction = new Method(
+                    'addUp',
+                    new Type('number'),
+                    of(
+                            new Parameter('lt', new Type('number')),
+                            new Parameter('rt', new Type('number'))
+                    ),
+                    of(new ReturnStatement(AdditiveExpression.add(ident('lt'), ident('rt'))))  //return lt + rt
+            )
+            def cls = new ClassDescriptor('Cls', of(), of(identityFunction))
+
+        when:
+            def bytes = generator.generate(cls)
+
+        then:
+            def generatedClass = new ByteArrayClassLoader().loadClass(bytes)
+            def instance = generatedClass.newInstance()
+            generatedClass.getMethod("addUp", double.class, double.class).invoke(instance, 2, 3) == 5
     }
 
 }

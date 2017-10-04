@@ -3,6 +3,7 @@ package com.nurkiewicz.tsclass.codegen;
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor;
 import com.nurkiewicz.tsclass.parser.ast.Method;
 import com.nurkiewicz.tsclass.parser.ast.ReturnStatement;
+import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression;
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression;
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier;
 import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral;
@@ -14,6 +15,7 @@ import static org.objectweb.asm.ClassWriter.COMPUTE_MAXS;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_SUPER;
 import static org.objectweb.asm.Opcodes.ALOAD;
+import static org.objectweb.asm.Opcodes.DADD;
 import static org.objectweb.asm.Opcodes.DLOAD;
 import static org.objectweb.asm.Opcodes.DRETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
@@ -41,13 +43,15 @@ public class CodeGenerator {
         if (expression instanceof NumberLiteral) {
             final double value = ((NumberLiteral) expression).getValue();
             mv.visitLdcInsn(value);
-            mv.visitInsn(DRETURN);
         } else if (expression instanceof Identifier) {
             // TODO: 03/10/17 Symbol table
-            final String name = ((Identifier) expression).getName();
             mv.visitVarInsn(DLOAD, 1);
-            mv.visitInsn(DRETURN);
+        } else if (expression instanceof AdditiveExpression) {
+            mv.visitVarInsn(DLOAD, 1);
+            mv.visitVarInsn(DLOAD, 3);
+            mv.visitInsn(DADD);
         }
+        mv.visitInsn(DRETURN);
         mv.visitMaxs(0, 0);
         mv.visitEnd();
     }
