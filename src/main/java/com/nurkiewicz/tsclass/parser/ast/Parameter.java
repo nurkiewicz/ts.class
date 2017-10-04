@@ -5,5 +5,5 @@ import lombok.Value;
 @Value
 public class Parameter {
     private final String name;
-    private final String type;
+    private final Type type;
 }
