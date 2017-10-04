@@ -1,6 +1,11 @@
 // Initially cloned from https://github.com/vandermore/Randori-Jackalope/tree/master/antlr4
 
+
 lexer grammar CommonLexerRules;
+
+@header{
+    package com.nurkiewicz.tsclass.antlr.parser;
+}
 
 ID
     : [a-zA-Z]+ ;

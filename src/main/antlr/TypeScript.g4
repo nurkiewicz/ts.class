@@ -3,10 +3,6 @@
 grammar TypeScript;
 import JSLexerRules;
 
-@header{
-package com.nurkiewicz.tsclass.antlr.parser;
-}
-
 //TypeScript Declarations
 //*****************************************************************
 //  TypeScript Declaration additions
