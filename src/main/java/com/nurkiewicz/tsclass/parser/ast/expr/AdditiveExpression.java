@@ -1,8 +1,10 @@
 package com.nurkiewicz.tsclass.parser.ast.expr;
 
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 @Value
+@EqualsAndHashCode(callSuper = true)
 public class AdditiveExpression extends BinaryExpression {
 
     private final Operator operator;
@@ -13,7 +15,13 @@ public class AdditiveExpression extends BinaryExpression {
     }
 
     public enum Operator {
-        PLUS, MINUS;
+        PLUS("+"), MINUS("-");
+
+        private final String s;
+
+        Operator(String s) {
+            this.s = s;
+        }
 
         public static Operator of(String s) {
             switch(s) {
@@ -22,6 +30,12 @@ public class AdditiveExpression extends BinaryExpression {
                 default:
                     throw new IllegalArgumentException(s);
             }
+        }
+
+
+        @Override
+        public String toString() {
+            return s;
         }
     }
 

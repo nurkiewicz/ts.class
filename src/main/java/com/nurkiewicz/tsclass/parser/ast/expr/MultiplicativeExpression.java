@@ -19,7 +19,13 @@ public class MultiplicativeExpression extends BinaryExpression {
     }
 
     public enum Operator {
-        MUL, DIV, MOD;
+        MUL("*"), DIV("/"), MOD("%");
+
+        private final String s;
+
+        Operator(String s) {
+            this.s = s;
+        }
 
         public static Operator of(String s) {
             switch(s) {
@@ -29,6 +35,12 @@ public class MultiplicativeExpression extends BinaryExpression {
                 default:
                     throw new IllegalArgumentException(s);
             }
+        }
+
+
+        @Override
+        public String toString() {
+            return s;
         }
     }
 

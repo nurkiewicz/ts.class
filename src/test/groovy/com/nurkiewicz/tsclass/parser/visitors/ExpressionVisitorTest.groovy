@@ -17,6 +17,7 @@ import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.DIV
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MOD
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MUL
+import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
 
 @Unroll
 class ExpressionVisitorTest extends Specification {
@@ -48,19 +49,34 @@ class ExpressionVisitorTest extends Specification {
             additive == new AdditiveExpression(
                     new AdditiveExpression(
                             new AdditiveExpression(
-                                    new AdditiveExpression(
-                                            new NumberLiteral(1),
-                                            PLUS,
-                                            new NumberLiteral(2)
-                                    ),
+                                    new AdditiveExpression(num(1), PLUS, num(2)),
                                     MINUS,
-                                    new NumberLiteral(3)
+                                    num(3)
                             ),
                             PLUS,
-                            new NumberLiteral(4)
+                            num(4)
                     ),
                     PLUS,
-                    new NumberLiteral(5)
+                    num(5)
+            )
+    }
+
+    def 'should parse complex multiplication expression'() {
+        when:
+            MultiplicativeExpression multiplicative = parse('1 * 2 / 3 * 4 % 5')
+        then:
+            multiplicative == new MultiplicativeExpression(
+                    new MultiplicativeExpression(
+                            new MultiplicativeExpression(
+                                    new MultiplicativeExpression(num(1), MUL, num(2)),
+                                    DIV,
+                                    num(3)
+                            ),
+                            MUL,
+                            num(4)
+                    ),
+                    MOD,
+                    num(5)
             )
     }
 
