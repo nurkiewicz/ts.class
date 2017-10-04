@@ -7,4 +7,12 @@ public class Identifier implements Expression {
 
     private final String name;
 
+    public static Identifier ident(String name) {
+        return new Identifier(name);
+    }
+
+    public String toString() {
+        return name;
+    }
+
 }

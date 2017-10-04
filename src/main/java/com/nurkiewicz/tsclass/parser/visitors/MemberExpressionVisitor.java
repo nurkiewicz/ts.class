@@ -9,6 +9,9 @@ import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral;
 class MemberExpressionVisitor extends TypeScriptBaseVisitor<Expression> {
         @Override
         public Expression visitPrimaryExpression(TypeScriptParser.PrimaryExpressionContext ctx) {
+            if (ctx.openParen() != null) {
+                return ctx.expression().accept(new ExpressionVisitor());
+            }
             if (ctx.IDENT() != null) {
                 return new Identifier(ctx.IDENT().getText());
             }

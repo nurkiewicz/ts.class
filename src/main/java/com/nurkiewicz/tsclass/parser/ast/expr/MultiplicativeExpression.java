@@ -3,6 +3,10 @@ package com.nurkiewicz.tsclass.parser.ast.expr;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.DIV;
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MOD;
+import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MUL;
+
 @Value
 @EqualsAndHashCode(callSuper = true)
 public class MultiplicativeExpression extends BinaryExpression {
@@ -14,8 +18,20 @@ public class MultiplicativeExpression extends BinaryExpression {
         this.operator = operator;
     }
 
+    public static MultiplicativeExpression mul(Expression left, Expression right) {
+        return new MultiplicativeExpression(left, MUL, right);
+    }
+
+    public static MultiplicativeExpression div(Expression left, Expression right) {
+        return new MultiplicativeExpression(left, DIV, right);
+    }
+
+    public static MultiplicativeExpression mod(Expression left, Expression right) {
+        return new MultiplicativeExpression(left, MOD, right);
+    }
+
     public String toString() {
-        return getLeft() + " " + operator + " " + getRight();
+        return "(" + getLeft() + " " + operator + " " + getRight() + ")";
     }
 
     public enum Operator {

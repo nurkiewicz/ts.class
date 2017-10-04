@@ -14,6 +14,18 @@ public class AdditiveExpression extends BinaryExpression {
         this.operator = operator;
     }
 
+    public static AdditiveExpression add(Expression left, Expression right) {
+        return new AdditiveExpression(left, Operator.PLUS, right);
+    }
+
+    public static AdditiveExpression sub(Expression left, Expression right) {
+        return new AdditiveExpression(left, Operator.MINUS, right);
+    }
+
+    public String toString() {
+        return "(" + getLeft() + " " + operator + " " + getRight() + ")";
+    }
+
     public enum Operator {
         PLUS("+"), MINUS("-");
 
@@ -23,6 +35,7 @@ public class AdditiveExpression extends BinaryExpression {
             this.s = s;
         }
 
+
         public static Operator of(String s) {
             switch(s) {
                 case "+": return PLUS;
@@ -31,16 +44,11 @@ public class AdditiveExpression extends BinaryExpression {
                     throw new IllegalArgumentException(s);
             }
         }
-
-
         @Override
         public String toString() {
             return s;
         }
-    }
 
-    public String toString() {
-        return getLeft() + " " + operator + " " + getRight();
     }
 
 }
