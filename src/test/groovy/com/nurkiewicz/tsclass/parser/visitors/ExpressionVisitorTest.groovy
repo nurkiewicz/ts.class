@@ -17,6 +17,7 @@ import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
+import static com.nurkiewicz.tsclass.parser.ast.expr.MethodCall.call
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.DIV
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MOD
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MUL
@@ -74,7 +75,20 @@ class ExpressionVisitorTest extends Specification {
             '1 + 2 - 3 + 4 + 5' || add(add(sub(add(num(1), num(2)), num(3)), num(4)), num(5))
             '1 * 2 / 3 * 4 % 5' || mod(mul(div(mul(num(1), num(2)), num(3)), num(4)), num(5))
             '(x * y) + (a / b)' || add(mul(ident("x"), ident("y")), div(ident("a"), ident("b")))
+    }
 
+    def 'should parse method invocation #expr to #obj'() {
+        expect:
+            parse(expr) == obj
+        where:
+            expr  || obj
+            'f()' || call("f")
+            'g(1)'        || call("g", num(1))
+            'hi(x)'       || call("hi", ident("x"))
+            'jkl(1, 2)'   || call("jkl", num(1), num(2))
+            'm(x, y + 3)' || call("m", ident("x"), add(ident("y"), num(3)))
+            '1 + f()'     || add(num(1), call("f"))
+            'g(4) * f()'  || mul(call("g", num(4)), call("f"))
     }
 
     private static Expression parse(String value) {
@@ -85,7 +99,6 @@ class ExpressionVisitorTest extends Specification {
                     }
                 }
             """
-//        AstWindow.open(code)
         ClassDescriptor cls = new Parser().parse(code)
         Method method = cls.methods[0]
         ReturnStatement statement = method.statements[0] as ReturnStatement

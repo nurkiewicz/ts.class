@@ -12,10 +12,10 @@ internal class MemberExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
             return ctx.expression().accept(ExpressionVisitor())
         }
         return if (ctx.IDENT() != null) {
-            Identifier(ctx.IDENT().getText())
+            Identifier(ctx.IDENT().text)
         } else ctx.accept(object : TypeScriptBaseVisitor<Expression>() {
             override fun visitLiteral(ctx: TypeScriptParser.LiteralContext): Expression {
-                return NumberLiteral(java.lang.Double.valueOf(ctx.NUMERIC_LITERAL().getText()))
+                return NumberLiteral(java.lang.Double.valueOf(ctx.NUMERIC_LITERAL().text))
             }
         })
     }
