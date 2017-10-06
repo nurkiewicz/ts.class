@@ -1,6 +1,19 @@
+buildscript {
+    ext.kotlin_version = '1.1.51'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
 apply plugin: 'groovy'
 apply plugin: 'antlr'
 apply plugin: 'jacoco'
+apply plugin: 'kotlin'
 
 repositories {
     jcenter()
@@ -30,6 +43,7 @@ dependencies {
     compile 'org.projectlombok:lombok:1.16.18'
     compile 'com.google.guava:guava:21.0'
     compile 'org.ow2.asm:asm:5.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
 
@@ -39,3 +53,5 @@ generateGrammarSource {
 }
 
 check.dependsOn jacocoTestReport
+
+compileKotlin.dependsOn 'generateGrammarSource'
