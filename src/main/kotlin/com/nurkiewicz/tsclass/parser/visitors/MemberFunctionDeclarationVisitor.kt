@@ -1,7 +1,5 @@
 package com.nurkiewicz.tsclass.parser.visitors
 
-import com.google.common.collect.ImmutableList
-import com.google.common.collect.ImmutableList.toImmutableList
 import com.google.common.collect.Lists
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
@@ -20,12 +18,12 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
         return Method(methodName, typeOf(typeCtx), parameters(sig), parseBody(ctx))
     }
 
-    private fun parameters(sig: TypeScriptParser.FunctionSignatureContext): ImmutableList<Parameter> {
+    private fun parameters(sig: TypeScriptParser.FunctionSignatureContext): List<Parameter> {
         val paramsCtx = sig.parameterList()
         return if (paramsCtx != null) {
-            ImmutableList.copyOf(paramsCtx.accept(ParameterListVisitor()))
+            paramsCtx.accept(ParameterListVisitor())
         } else {
-            ImmutableList.of()
+            emptyList()
         }
     }
 
@@ -33,15 +31,13 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
         return Type(if (typeCtx != null) typeCtx.typeName().getText() else "void")
     }
 
-    private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext): ImmutableList<Statement> {
+    private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext): List<Statement> {
         return ctx
                 .memberFunctionImplementation()
                 .functionBody()
                 .sourceElement()
-                .stream()
                 .map({ se -> se.accept(SourceElementVisitor()) })
-                .filter { Objects.nonNull(it) }
-                .collect(toImmutableList())
+                .filter { it != null }
     }
 
     private class RequiredParameterListVisitor : TypeScriptBaseVisitor<List<Parameter>>() {

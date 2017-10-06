@@ -1,23 +1,18 @@
 package com.nurkiewicz.tsclass.parser.ast
 
-import com.google.common.collect.ImmutableList
-import java.util.stream.Collectors
-
 data class Method(
         val name: String,
         val type: Type,
-        val parameters: ImmutableList<Parameter>,
-        val statements: ImmutableList<Statement>) {
+        val parameters: List<Parameter>,
+        val statements: List<Statement>) {
 
     fun methodDescriptor(): String {
         return org.objectweb.asm.Type.getMethodDescriptor(type.toJavaType(), *paramJavaTypes)
     }
 
-    private val paramJavaTypes: Array<org.objectweb.asm.Type>
-        get() = parameters
-                .stream()
+    private val paramJavaTypes: Array<org.objectweb.asm.Type> =
+            parameters
                 .map { it.type }
                 .map { it.toJavaType() }
-                .collect(Collectors.toList())
                 .toTypedArray()
 }
