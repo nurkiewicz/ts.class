@@ -2,9 +2,7 @@ package com.nurkiewicz.tsclass.parser.ast.expr
 
 data class NumberLiteral(val value: Double) : Expression {
 
-    override fun toString(): String {
-        return value.toString()
-    }
+    override fun toString() = value.toString()
 
     companion object {
 

@@ -16,3 +16,6 @@ data class Method(
                 .map { it.toJavaType() }
                 .toTypedArray()
 }
+
+data class Parameter(val name: String, val type: Type)
+
