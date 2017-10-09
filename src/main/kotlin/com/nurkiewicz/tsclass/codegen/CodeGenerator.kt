@@ -35,6 +35,7 @@ class CodeGenerator {
 
     private fun generateMethod(writer: ClassWriter, m: Method) {
         val mv = writer.visitMethod(ACC_PUBLIC, m.name, m.methodDescriptor(), null, null)
+        m.statements
         val returnStatement = m.statements[0] as ReturnStatement
         val expression = returnStatement.expression
         if (expression is NumberLiteral) {
