@@ -4,16 +4,24 @@ import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
 import com.nurkiewicz.tsclass.parser.ast.Type
 
-data class SymbolTable(
+
+interface SymbolTable {
+    fun lookup(symbol: String): Symbol?
+}
+
+class Empty: SymbolTable {
+    override fun lookup(symbol: String) = null
+
+}
+
+data class MethodParameters(
         private val symbols: Map<String, Symbol>,
-        private val parent: SymbolTable?
-) {
+        private val parent: SymbolTable
+): SymbolTable {
+
+    constructor(m: Method, parent: SymbolTable): this(paramsToSymbols(m), parent)
 
     companion object {
-        fun from(m: Method, parent: SymbolTable): SymbolTable {
-            return SymbolTable(paramsToSymbols(m), parent)
-        }
-
         private fun paramsToSymbols(method: Method): Map<String, Symbol> = method
                     .parameters
                     .mapIndexed { idx, param -> Pair(param.name, symbol(idx, param)) }
@@ -23,8 +31,8 @@ data class SymbolTable(
                 Symbol.MethodParameter(i * 2 + 1, param.type)
     }
 
-    fun lookup(symbol: String): Symbol? =
-            symbols[symbol] ?: parent?.lookup(symbol)
+    override fun lookup(symbol: String): Symbol? =
+            symbols[symbol] ?: parent.lookup(symbol)
 }
 
 sealed class Symbol {

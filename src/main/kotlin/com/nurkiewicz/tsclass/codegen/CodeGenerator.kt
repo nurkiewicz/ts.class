@@ -21,7 +21,7 @@ class CodeGenerator(
         writer.visit(49, ACC_PUBLIC or ACC_SUPER, cls.name, null, "java/lang/Object", null)
         writer.visitSource(cls.name + ".ts", null)
         defaultConstructor(writer)
-        val classSymbols = SymbolTable(emptyMap(), null)
+        val classSymbols = Empty()
         cls.methods.forEach { m -> generateMethod(writer, m, classSymbols) }
 
         writer.visitEnd()
@@ -31,22 +31,7 @@ class CodeGenerator(
     private fun generateMethod(writer: ClassWriter, m: Method, classSymbols: SymbolTable) {
         val mv = writer.visitMethod(ACC_PUBLIC, m.name, m.methodDescriptor(), null, null)
 
-//        val returnStatement = m.statements[0] as ReturnStatement
-//        val expression = returnStatement.expression
-//        if (expression is NumberLiteral) {
-//            val value = expression.value
-//            mv.visitLdcInsn(value)
-//        } else if (expression is Identifier) {
-//            // TODO: 03/10/17 Symbol table
-//            mv.visitVarInsn(DLOAD, 1)
-//        } else if (expression is AdditiveExpression) {
-//            mv.visitVarInsn(DLOAD, 1)
-//            mv.visitVarInsn(DLOAD, 3)
-//            mv.visitInsn(DADD)
-//        }
-//        mv.visitInsn(DRETURN)
-
-        val methodSymbols = SymbolTable.from(m, classSymbols)
+        val methodSymbols = MethodParameters(m, classSymbols)
 
 
         val code: List<Bytecode> = m.statements.flatMap { statementGenerator.generate(it, methodSymbols) }
