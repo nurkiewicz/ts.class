@@ -13,8 +13,6 @@ class AsmEmitter {
                         writer.visitVarInsn(instr.code, instr.arg)
                 is Bytecode.DoubleArg ->
                         writer.visitLdcInsn(instr.arg)
-                else ->
-                        throw IllegalArgumentException("Unsupported instruction: $instr")
             }
         }
     }
