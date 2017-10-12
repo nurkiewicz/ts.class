@@ -6,17 +6,11 @@ import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 
 class ArgumentListVisitor: TypeScriptBaseVisitor<List<Expression>>() {
 
-//    override fun visitArgumentList(ctx: TypeScriptParser.ArgumentListContext): List<Expression> {
-//        println(ctx.text)
-//        return super.visitArgumentList(ctx)
-//    }
-
     override fun defaultResult(): List<Expression> {
         return emptyList()
     }
 
     override fun visitAssignmentExpression(ctx: TypeScriptParser.AssignmentExpressionContext): List<Expression> {
-        println(ctx.text)
         return listOf(ctx.accept(ExpressionVisitor()))
     }
 

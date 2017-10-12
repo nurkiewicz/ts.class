@@ -9,6 +9,12 @@ class AsmEmitter {
             when(instr) {
                 is Bytecode.NoArg ->
                     writer.visitInsn(instr.code)
+                is Bytecode.IntArg ->
+                        writer.visitVarInsn(instr.code, instr.arg)
+                is Bytecode.DoubleArg ->
+                        writer.visitLdcInsn(instr.arg)
+                else ->
+                        throw IllegalArgumentException("Unsupported instruction: $instr")
             }
         }
     }

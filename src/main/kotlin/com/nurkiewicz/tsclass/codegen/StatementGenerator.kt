@@ -5,12 +5,12 @@ import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
 import com.nurkiewicz.tsclass.parser.ast.Statement
 import org.objectweb.asm.Opcodes
 
-internal class StatementGenerator(private val expressionGenerator: ExpressionGenerator) {
+class StatementGenerator(private val expressionGenerator: ExpressionGenerator) {
 
-    fun generate(statement: Statement): List<Bytecode> {
+    fun generate(statement: Statement, tab: SymbolTable): List<Bytecode> {
         return when (statement) {
             is ReturnStatement -> {
-                val bytecode = expressionGenerator.generate(statement.expression)
+                val bytecode = expressionGenerator.generate(statement.expression, tab)
                 bytecode + NoArg(Opcodes.DRETURN)
             }
         }

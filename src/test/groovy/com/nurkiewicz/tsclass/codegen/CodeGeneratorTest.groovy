@@ -16,7 +16,10 @@ import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
 class CodeGeneratorTest extends Specification {
 
     @Subject
-    private CodeGenerator generator = new CodeGenerator()
+    private CodeGenerator generator = new CodeGenerator(
+            new StatementGenerator(new ExpressionGenerator()),
+            new AsmEmitter()
+    )
 
     def 'should generate simple class'() {
         Method methodReturning42 = new Method('answer', new Type('number'), of(), of(new ReturnStatement(num(42))))
