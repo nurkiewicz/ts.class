@@ -10,17 +10,9 @@ class StatementGenerator(private val expressionGenerator: ExpressionGenerator) {
     fun generate(statement: Statement, tab: SymbolTable): List<Bytecode> {
         return when (statement) {
             is ReturnStatement -> {
-                val bytecode = expressionGenerator.generate(statement.expression, tab)
-                bytecode + NoArg(Opcodes.DRETURN)
+                expressionGenerator.generate(statement.expression, tab) + NoArg(Opcodes.DRETURN)
             }
         }
-
     }
-}
-
-sealed class Bytecode {
-    data class NoArg(val code: Int) : Bytecode()
-    data class IntArg(val code: Int, val arg: Int) : Bytecode()
-    data class DoubleArg(val code: Int, val arg: Double) : Bytecode()
 }
 

@@ -4,6 +4,7 @@ import com.nurkiewicz.tsclass.CompilationError
 import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
+import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
 import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
 import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
 import org.objectweb.asm.Opcodes
@@ -24,9 +25,27 @@ class ExpressionGenerator {
             is MultiplicativeExpression ->
                 generate(expression.left, tab) +
                         generate(expression.right, tab) +
-                        Bytecode.NoArg(Opcodes.DMUL)
-            is Identifier -> resolveSymbol(tab, expression)
-            else -> throw IllegalArgumentException("Unknown expression: $expression")
+                        operatorToBytecode(expression.operator)
+            is Identifier ->
+                resolveSymbol(tab, expression)
+            is MethodCall ->
+                aload0() + pushParametersOnStack(expression, tab) + thisClassCall(expression, tab)
+            else ->
+                throw IllegalArgumentException("Unknown expression: $expression")
+        }
+    }
+
+    private fun aload0() = listOf(Bytecode.IntArg(Opcodes.ALOAD, 0))
+
+    private fun pushParametersOnStack(expression: MethodCall, tab: SymbolTable) =
+            expression.parameters.flatMap { generate(it, tab) }
+
+    private fun thisClassCall(methodCall: MethodCall, tab: SymbolTable): Bytecode.Call {
+        val matchingMethod = tab.currentClass().findBestMatchingMethod(methodCall)
+        if (matchingMethod != null) {
+            return Bytecode.Call(Opcodes.INVOKESPECIAL, tab.currentClass().name, matchingMethod, false)
+        } else {
+            throw UnknownMethod(methodCall)
         }
     }
 

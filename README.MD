@@ -4,5 +4,10 @@
 [![codecov](https://codecov.io/gh/nurkiewicz/ts.class/branch/master/graph/badge.svg)](https://codecov.io/gh/nurkiewicz/ts.class)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**ts.class** compiles TypeScript source into JVM bytecode (`.class` files) that can interoperate both ways with Java ecosystem.
+**ts.class** compiles [TypeScript](https://www.typescriptlang.org/) source into JVM bytecode (`.class` files) that can interoperate both ways with Java ecosystem.
 This is a work-in-progress with very little features so far.
+
+## Rationale
+
+* use the same code for front-end and back-end (which is not JavaScript)
+* server-side performance by avoiding transpilation to dynamically typed JavaScript

@@ -1,5 +1,7 @@
 package com.nurkiewicz.tsclass.parser.ast
 
+import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
+
 data class Method(
         val name: String,
         val type: Type,
@@ -15,7 +17,16 @@ data class Method(
                 .map { it.type }
                 .map { it.toJavaType() }
                 .toTypedArray()
+
+    fun matches(call: MethodCall) =
+            this.name == call.name && parameterTypesMatching(call)
+
+    //TODO Also check call types, not only count
+    private fun parameterTypesMatching(call: MethodCall) =
+            this.parameters.size == call.parameters.size
 }
 
-data class Parameter(val name: String, val type: Type)
+data class Parameter(val name: String, val type: Type) {
+    override fun toString() = "$name: $type"
+}
 

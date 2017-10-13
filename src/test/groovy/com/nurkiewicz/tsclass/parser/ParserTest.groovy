@@ -26,7 +26,7 @@ class ParserTest extends Specification {
             cls.methods.size() == 1
             Method method = cls.methods[0]
             method.name == 'answer'
-            method.type == new Type('number')
+            method.type == Type.number
             method.parameters == []
             method.statements.size() == 1
             ReturnStatement statement = method.statements[0] as ReturnStatement

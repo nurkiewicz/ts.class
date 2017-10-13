@@ -1,5 +1,6 @@
 package com.nurkiewicz.tsclass.codegen
 
+import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
 import com.nurkiewicz.tsclass.parser.ast.Type
@@ -7,11 +8,12 @@ import com.nurkiewicz.tsclass.parser.ast.Type
 
 interface SymbolTable {
     fun lookup(symbol: String): Symbol?
+    fun currentClass(): ClassDescriptor
 }
 
 class Empty: SymbolTable {
     override fun lookup(symbol: String) = null
-
+    override fun currentClass() = throw IllegalStateException("Outer class unknown")
 }
 
 data class MethodParameters(
@@ -33,6 +35,16 @@ data class MethodParameters(
 
     override fun lookup(symbol: String): Symbol? =
             symbols[symbol] ?: parent.lookup(symbol)
+
+    override fun currentClass() = parent.currentClass()
+
+}
+
+data class ClassSymbols(private val classDescriptor: ClassDescriptor, private val parent: SymbolTable): SymbolTable {
+    override fun lookup(symbol: String) = parent.lookup(symbol)
+
+    override fun currentClass() = classDescriptor
+
 }
 
 sealed class Symbol {
