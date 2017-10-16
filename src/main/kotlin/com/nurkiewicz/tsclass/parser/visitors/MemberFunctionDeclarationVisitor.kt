@@ -36,7 +36,7 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
                 .memberFunctionImplementation()
                 .functionBody()
                 .sourceElement()
-                .map({ se -> se.accept(SourceElementVisitor()) })
+                .map({ se -> se.accept(StatementVisitor()) })
                 .filter { it != null }
     }
 
