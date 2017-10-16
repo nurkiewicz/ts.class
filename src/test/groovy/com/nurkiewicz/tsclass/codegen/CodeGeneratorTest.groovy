@@ -7,7 +7,7 @@ import com.nurkiewicz.tsclass.codegen.asm.MethodEmitter
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
-import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
+import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Type
 import spock.lang.Specification
 import spock.lang.Subject
@@ -37,7 +37,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should generate simple class'() {
         given:
-            Method methodReturning42 = new Method('answer', Type.number, of(), of(new ReturnStatement(num(42))))
+            Method methodReturning42 = new Method('answer', Type.number, of(), of(new Return(num(42))))
             def cls = new ClassDescriptor('Greeter', of(), of(methodReturning42))
 
         when:
@@ -56,7 +56,7 @@ class CodeGeneratorTest extends Specification {
                     'identity',
                     Type.number,
                     of(new Parameter('input', Type.number)),
-                    of(new ReturnStatement(ident('input')))
+                    of(new Return(ident('input')))
             )
             def cls = new ClassDescriptor('Ident', of(), of(identityFunction))
 
@@ -79,7 +79,7 @@ class CodeGeneratorTest extends Specification {
                             new Parameter('lt', Type.number),
                             new Parameter('rt', Type.number)
                     ),
-                    of(new ReturnStatement(add(ident('lt'), ident('rt'))))  //return lt + rt
+                    of(new Return(add(ident('lt'), ident('rt'))))  //return lt + rt
             )
             def cls = new ClassDescriptor('Cls', of(), of(identityFunction))
 
@@ -105,7 +105,7 @@ class CodeGeneratorTest extends Specification {
                                     new Parameter('c', Type.number),
                                     new Parameter('d', Type.number),
                             ),
-                            of(new ReturnStatement(add(
+                            of(new Return(add(
                                     ident('a'),
                                     mul(
                                             ident('b'),
@@ -132,7 +132,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should fail with CompilationError when unknown symbol used'() {
         given:
-            Method methodReturning42 = new Method('answer', Type.number, of(), of(new ReturnStatement(ident('bogus'))))
+            Method methodReturning42 = new Method('answer', Type.number, of(), of(new Return(ident('bogus'))))
             def cls = new ClassDescriptor('Greeter', of(), of(methodReturning42))
 
         when:
@@ -145,8 +145,8 @@ class CodeGeneratorTest extends Specification {
 
     def 'should call another private function'() {
         given:
-            Method methodCallingBar = new Method('foo', Type.number, of(), of(new ReturnStatement(call('bar'))))
-            Method methodBar = new Method('bar', Type.number, of(), of(new ReturnStatement(num(PI))))
+            Method methodCallingBar = new Method('foo', Type.number, of(), of(new Return(call('bar'))))
+            Method methodBar = new Method('bar', Type.number, of(), of(new Return(num(PI))))
             ClassDescriptor cls = new ClassDescriptor('Foo', of(), of(methodCallingBar, methodBar))
             def bytes = generator.generate(cls)
         when:
@@ -159,15 +159,15 @@ class CodeGeneratorTest extends Specification {
 
     def 'should call another private function with arguments'() {
         given:
-            Method methodCallingSub = new Method('buzz', Type.number, of(), of(new ReturnStatement(call('sub', num(8), num(5)))))
+            Method methodCallingSub = new Method('buzz', Type.number, of(), of(new Return(call('sub', num(8), num(5)))))
             Method methodSub = new Method(
                     'sub',
                     Type.number,
                     of(new Parameter("s1", Type.number), new Parameter("s2", Type.number)),
-                    of(new ReturnStatement(sub(ident('s1'), ident('s2')))))
+                    of(new Return(sub(ident('s1'), ident('s2')))))
             ClassDescriptor cls = new ClassDescriptor('Calculator', of(), of(methodCallingSub, methodSub))
             def bytes = generator.generate(cls)
-            Files.write(bytes, new File('Calculator.class'));
+            //Files.write(bytes, new File('Calculator.class'));
         when:
             def generatedClass = classFrom(bytes)
 

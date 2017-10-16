@@ -3,7 +3,7 @@ package com.nurkiewicz.tsclass.parser.visitors
 import com.nurkiewicz.tsclass.parser.Parser
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
-import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
+import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
@@ -101,7 +101,7 @@ class ExpressionVisitorTest extends Specification {
             """
         ClassDescriptor cls = new Parser().parse(code)
         Method method = cls.methods[0]
-        ReturnStatement statement = method.statements[0] as ReturnStatement
+        Return statement = method.statements[0] as Return
         return statement.expression
 
     }

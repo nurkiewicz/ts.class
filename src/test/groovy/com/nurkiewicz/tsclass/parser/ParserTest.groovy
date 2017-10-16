@@ -3,7 +3,7 @@ package com.nurkiewicz.tsclass.parser
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
-import com.nurkiewicz.tsclass.parser.ast.ReturnStatement
+import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Type
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
 import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
@@ -29,7 +29,7 @@ class ParserTest extends Specification {
             method.type == Type.number
             method.parameters == []
             method.statements.size() == 1
-            ReturnStatement statement = method.statements[0] as ReturnStatement
+            Return statement = method.statements[0] as Return
             (statement.expression as NumberLiteral).value == 42.0d
     }
 
@@ -48,7 +48,7 @@ class ParserTest extends Specification {
             Method method = cls.methods[0]
             method.parameters == [new Parameter('x', new Type('string'))]
             method.statements.size() == 1
-            ReturnStatement statement = method.statements[0] as ReturnStatement
+            Return statement = method.statements[0] as Return
             (statement.expression as Identifier).name == 'x'
     }
 
