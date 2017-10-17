@@ -899,7 +899,7 @@ expressionStatement
     ;
 
 ifStatement
-    : 'if' openParen expression closeParen statement 'else' statement
+    : 'if' openParen expression closeParen ifBlock=statement 'else' elseBlock=statement
     | 'if' openParen expression closeParen statement
     ;
 
