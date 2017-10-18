@@ -11,4 +11,14 @@ data class Return(val expression: Expression): Statement() {
     }
 }
 
-data class If(val condition: Expression, val block: Block, val elseBlock: Block?): Statement()
+data class If(val condition: Expression, val block: Block, val elseBlock: Block?): Statement() {
+    companion object {
+
+        @JvmStatic
+        fun ifs(condition: Expression, block: Block) = If(condition, block, null)
+
+        @JvmStatic
+        fun ifs(condition: Expression, block: Block, elseBlock: Block) = If(condition, block, elseBlock)
+    }
+
+}
