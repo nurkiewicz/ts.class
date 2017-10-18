@@ -20,13 +20,11 @@ data class MultiplicativeExpression(val left: Expression, val operator: Operator
 
         companion object {
 
-            fun of(s: String): Operator {
-                when (s) {
-                    "*" -> return MUL
-                    "/" -> return DIV
-                    "%" -> return MOD
-                    else -> throw IllegalArgumentException(s)
-                }
+            fun of(s: String) = when (s) {
+                "*" -> MUL
+                "/" -> DIV
+                "%" -> MOD
+                else -> throw IllegalArgumentException(s)
             }
         }
     }

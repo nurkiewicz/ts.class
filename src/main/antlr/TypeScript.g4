@@ -725,12 +725,16 @@ equalityExpression
       
 relationalExpression
     : shiftExpression
-    | relationalExpression '<' shiftExpression
-    | relationalExpression '>' shiftExpression
-    | relationalExpression '<=' shiftExpression
-    | relationalExpression '>=' shiftExpression
-    | relationalExpression 'instanceof' shiftExpression
-    | relationalExpression 'in' shiftExpression
+    | relationalExpression relationalOperator shiftExpression
+    ;
+
+relationalOperator
+    : '<'
+    | '>'
+    | '<='
+    | '>='
+    | 'instanceof'
+    | 'in'
     ;
 
 shiftExpression

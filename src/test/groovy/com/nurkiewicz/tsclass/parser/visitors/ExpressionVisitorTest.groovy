@@ -26,6 +26,10 @@ import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mo
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mul
 import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
 import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
+import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gt
+import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gte
+import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lt
+import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lte
 
 @Unroll
 class ExpressionVisitorTest extends Specification {
@@ -80,6 +84,11 @@ class ExpressionVisitorTest extends Specification {
             '1 + 2 - 3 + 4 + 5' || add(add(sub(add(num(1), num(2)), num(3)), num(4)), num(5))
             '1 * 2 / 3 * 4 % 5' || mod(mul(div(mul(num(1), num(2)), num(3)), num(4)), num(5))
             '(x * y) + (a / b)' || add(mul(ident("x"), ident("y")), div(ident("a"), ident("b")))
+            '1 > 2'             || gt(num(1), num(2))
+            'f(x1) < f(x2)'     || lt(call('f', ident('x1')), call('f', ident('x2')))
+            '3 >= x'            || gte(num(3), ident('x'))
+            '4 <= -1'           || lte(num(4), neg(num(1)))
+            '1+2 >= 1*2'        || gte(add(num(1), num(2)), mul(num(1), num(2)))
     }
 
     def 'should parse method invocation #expr to #obj'() {
