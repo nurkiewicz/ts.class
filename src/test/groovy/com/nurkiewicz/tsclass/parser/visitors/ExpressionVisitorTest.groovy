@@ -24,6 +24,7 @@ import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Op
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.div
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mod
 import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mul
+import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
 import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
 
 @Unroll
@@ -68,6 +69,10 @@ class ExpressionVisitorTest extends Specification {
             parse(expr) == obj
         where:
             expr                || obj
+            '-1'                || neg(1)
+            '-x'                || neg(ident('x'))
+            '-(2 + 3)'          || neg(add(num(2), num(3)))
+            'd() + -3'          || add(call('d'), neg(num(3)))
             '2 + 3 * 6'         || add(num(2), mul(num(3), num(6)))
             '2 + 3 * x'         || add(num(2), mul(num(3), ident("x")))
             '(2 + 3) * x'       || mul(add(num(2), num(3)), ident("x"))
@@ -81,8 +86,8 @@ class ExpressionVisitorTest extends Specification {
         expect:
             parse(expr) == obj
         where:
-            expr  || obj
-            'f()' || call("f")
+            expr          || obj
+            'f()'         || call("f")
             'g(1)'        || call("g", num(1))
             'hi(x)'       || call("hi", ident("x"))
             'jkl(1, 2)'   || call("jkl", num(1), num(2))
@@ -99,6 +104,7 @@ class ExpressionVisitorTest extends Specification {
                     }
                 }
             """
+//        AstWindow.open(code)
         ClassDescriptor cls = new Parser().parse(code)
         Method method = cls.methods[0]
         Return statement = method.statements[0] as Return

@@ -171,19 +171,21 @@ arrowFormalParameters
 
 unaryExpression //Modified to add in < Type > for TS
     : postfixExpression
-    | 'delete' unaryExpression
-    | 'void' unaryExpression
-    | 'typeof' unaryExpression
-    | '++' unaryExpression
-    | '--' unaryExpression
-    | '+' unaryExpression
-    | '-' unaryExpression
-    | '~' unaryExpression
-    | '!' unaryExpression
+    | unaryOperator unaryExpression
     | '<' type '>'
     ;
 
-
+unaryOperator
+    : 'delete'
+    | 'void'
+    | 'typeof'
+    | '++'
+    | '--'
+    | '+'
+    | '-'
+    | '~'
+    | '!'
+    ;
 
 //*****************************************************************
 //      Statements
