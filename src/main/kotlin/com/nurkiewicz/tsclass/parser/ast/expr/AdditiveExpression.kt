@@ -16,12 +16,10 @@ data class AdditiveExpression(val left: Expression, val operator: Operator, val 
         companion object {
 
 
-            fun of(s: String): Operator {
-                when (s) {
-                    "+" -> return PLUS
-                    "-" -> return MINUS
-                    else -> throw IllegalArgumentException(s)
-                }
+            fun of(s: String) = when (s) {
+                "+" -> PLUS
+                "-" -> MINUS
+                else -> throw IllegalArgumentException(s)
             }
         }
 
