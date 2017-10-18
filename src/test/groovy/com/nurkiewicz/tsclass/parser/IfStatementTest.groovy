@@ -1,14 +1,16 @@
 package com.nurkiewicz.tsclass.parser
 
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
-import com.nurkiewicz.tsclass.parser.ast.If
 import com.nurkiewicz.tsclass.parser.ast.Method
 import spock.lang.Specification
 
 import static com.nurkiewicz.tsclass.parser.ast.Block.block
+import static com.nurkiewicz.tsclass.parser.ast.If.ifs
 import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
+import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
+import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gte
 
 class IfStatementTest extends Specification {
 
@@ -33,13 +35,12 @@ class IfStatementTest extends Specification {
             Method method = cls.methods[0]
             method.name == 'abs'
             method.statements == [
-                    If.ifs(
-                            ident('num'),
+                    ifs(
+                            gte(ident('num'), num(0)),
                             block([ret(ident('num'))]),
                             block([ret(neg(ident('num')))])
                     )
             ]
-
     }
 
 }
