@@ -16,7 +16,6 @@ internal class StatementVisitor : TypeScriptBaseVisitor<Statement>() {
     }
 
     override fun visitIfStatement(ctx: TypeScriptParser.IfStatementContext): Statement {
-        println("if " + ctx.text)
         val condition: Expression = ctx.expression().accept(ExpressionVisitor())
         val ifBlock: Statement = ctx.ifBlock.accept(this)
         val elseBlock: Block? = when(ctx.elseBlock) {
