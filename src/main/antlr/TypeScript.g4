@@ -905,8 +905,7 @@ expressionStatement
     ;
 
 ifStatement
-    : 'if' openParen expression closeParen ifBlock=statement 'else' elseBlock=statement
-    | 'if' openParen expression closeParen statement
+    : 'if' openParen expression closeParen (ifBlock=statement) ('else' elseBlock=statement)?
     ;
 
 iterationStatement
