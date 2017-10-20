@@ -22,7 +22,7 @@ class StatementGeneratorTest extends Specification {
 
     public static final String CLASS_NAME = "Foo"
     @Shared
-    private StatementGenerator generator = new StatementGenerator(new ExpressionGenerator())
+    private StatementGenerator generator = StatementGenerator.build()
 
     private static ClassSymbols outerClass() {
         List<Method> methods = [

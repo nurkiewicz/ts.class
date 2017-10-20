@@ -11,17 +11,27 @@ class MethodEmitter(
         bytecode.forEach { emitInstruction(it, writer) }
     }
 
-    private fun emitInstruction(instr: Bytecode, writer: MethodVisitor) {
-        when (instr) {
+    private fun emitInstruction(c: Bytecode, writer: MethodVisitor) {
+        when (c) {
             is Bytecode.NoArg ->
-                writer.visitInsn(instr.code)
+                writer.visitInsn(c.code)
             is Bytecode.IntArg ->
-                writer.visitVarInsn(instr.code, instr.arg)
+                writer.visitVarInsn(c.code, c.arg)
             is Bytecode.DoubleArg ->
-                writer.visitLdcInsn(instr.arg)
+                writer.visitLdcInsn(c.arg)
             is Bytecode.Call ->
-                callEmitter.emit(writer, instr)
+                callEmitter.emit(writer, c)
+            is Bytecode.Jump ->
+                writer.visitJumpInsn(c.code, c.label)
+            is Bytecode.LabelPlace ->
+                writer.visitLabel(c.label)
         }.let {}  //force compilation error when not exhaustive
     }
+
+    companion object {
+        @JvmStatic
+        fun build() = MethodEmitter(CallEmitter())
+    }
+
 }
 

@@ -6,7 +6,10 @@ import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
 import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
 import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
+import com.nurkiewicz.tsclass.parser.ast.expr.Neg
 import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
+import com.nurkiewicz.tsclass.parser.ast.expr.Relational
+import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.DLOAD
 import org.objectweb.asm.Opcodes.LDC
@@ -30,8 +33,15 @@ class ExpressionGenerator {
                 resolveSymbol(tab, expression)
             is MethodCall ->
                 aload0() + pushParametersOnStack(expression, tab) + thisClassCall(expression, tab)
+            is Neg ->
+                this.generate(expression.expression, tab) + Bytecode.NoArg(Opcodes.DNEG)
+            is Relational ->
+                generate(expression.left, tab) +
+                        generate(expression.right, tab) +
+                        Bytecode.NoArg(Opcodes.DCMPL) +
+                        operatorToConditionalJump(expression.operator)
             else ->
-                throw IllegalArgumentException("Unknown expression: $expression")
+                throw IllegalArgumentException("Unsupported expression: $expression")
         }
     }
 
@@ -67,4 +77,12 @@ class ExpressionGenerator {
         MultiplicativeExpression.Operator.DIV -> Bytecode.NoArg(Opcodes.DDIV)
         MultiplicativeExpression.Operator.MOD -> Bytecode.NoArg(Opcodes.DREM)
     }
+
+    private fun operatorToConditionalJump(operator: Relational.Operator) = when (operator) {
+        Relational.Operator.LT -> Bytecode.Jump(Opcodes.IFGE, Label())
+        Relational.Operator.LTE -> Bytecode.Jump(Opcodes.IFGT, Label())
+        Relational.Operator.GT -> Bytecode.Jump(Opcodes.IFLE, Label())
+        Relational.Operator.GTE -> Bytecode.Jump(Opcodes.IFLT, Label())
+    }
+
 }

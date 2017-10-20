@@ -1,6 +1,5 @@
 package com.nurkiewicz.tsclass.codegen
 
-import com.google.common.io.Files
 import com.nurkiewicz.tsclass.CompilationError
 import com.nurkiewicz.tsclass.codegen.asm.CallEmitter
 import com.nurkiewicz.tsclass.codegen.asm.MethodEmitter
@@ -27,7 +26,7 @@ class CodeGeneratorTest extends Specification {
 
     @Subject
     private CodeGenerator generator = new CodeGenerator(
-            new StatementGenerator(new ExpressionGenerator()),
+            StatementGenerator.build(),
             new MethodEmitter(new CallEmitter())
     )
 

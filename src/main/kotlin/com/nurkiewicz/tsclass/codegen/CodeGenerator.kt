@@ -46,4 +46,10 @@ class CodeGenerator(
         mv.visitEnd()
     }
 
+    companion object {
+        @JvmStatic
+        fun build() = CodeGenerator(StatementGenerator.build(), MethodEmitter.build())
+
+    }
+
 }

@@ -1,11 +1,20 @@
 package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.parser.ast.Method
+import org.objectweb.asm.Label
 
 sealed class Bytecode {
 
     data class NoArg(val code: Int) : Bytecode() {
         override fun toString(): String = OPCODE_NAMES[code]
+    }
+
+    data class Jump(val code: Int, val label: Label) : Bytecode() {
+        override fun toString(): String = OPCODE_NAMES[code] + " " + label
+    }
+
+    data class LabelPlace(val label: Label) : Bytecode() {
+        override fun toString(): String = ": " + label
     }
 
     data class IntArg(val code: Int, val arg: Int) : Bytecode() {

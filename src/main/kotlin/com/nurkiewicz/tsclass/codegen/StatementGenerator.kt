@@ -6,16 +6,24 @@ import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Statement
 import org.objectweb.asm.Opcodes
 
-class StatementGenerator(private val expressionGenerator: ExpressionGenerator) {
+class StatementGenerator(
+        private val expressionGenerator: ExpressionGenerator,
+        private val ifGenerator: IfGenerator
+        ) {
 
     fun generate(statement: Statement, tab: SymbolTable): List<Bytecode> {
         return when (statement) {
-            is Return -> {
+            is Return ->
                 expressionGenerator.generate(statement.expression, tab) + NoArg(Opcodes.DRETURN)
-            }
-            is If -> {
-                TODO("Unimplemented")
-            }
+            is If ->
+                ifGenerator.generate(statement, tab, this)
+        }
+    }
+
+    companion object {
+        @JvmStatic fun build(): StatementGenerator {
+            val expressionGenerator = ExpressionGenerator()
+            return StatementGenerator(expressionGenerator, IfGenerator(expressionGenerator))
         }
     }
 }
