@@ -3,11 +3,11 @@ package com.nurkiewicz.tsclass.parser.visitors
 import com.google.common.collect.Lists
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
+import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
-import com.nurkiewicz.tsclass.parser.ast.Statement
 import com.nurkiewicz.tsclass.parser.ast.Type
-import java.util.*
+import java.util.ArrayList
 
 internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>() {
 
@@ -31,14 +31,14 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
         return Type(if (typeCtx != null) typeCtx.typeName().getText() else "void")
     }
 
-    private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext): List<Statement> {
-        return ctx
-                .memberFunctionImplementation()
-                .functionBody()
-                .sourceElement()
-                .map({ se -> se.accept(StatementVisitor()) })
-                .filter { it != null }
-    }
+    private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext) = Block(
+            ctx
+                    .memberFunctionImplementation()
+                    .functionBody()
+                    .sourceElement()
+                    .map({ se -> se.accept(StatementVisitor()) })
+                    .filter { it != null }
+    )
 
     private class RequiredParameterListVisitor : TypeScriptBaseVisitor<List<Parameter>>() {
 

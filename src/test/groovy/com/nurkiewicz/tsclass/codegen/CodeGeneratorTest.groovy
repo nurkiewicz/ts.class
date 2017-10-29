@@ -13,6 +13,8 @@ import spock.lang.Subject
 import spock.lang.Unroll
 
 import static com.google.common.collect.ImmutableList.of
+import static com.nurkiewicz.tsclass.parser.ast.Block.block
+import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
@@ -36,7 +38,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should generate simple class'() {
         given:
-            Method methodReturning42 = new Method('answer', Type.number, of(), of(new Return(num(42))))
+            Method methodReturning42 = new Method('answer', Type.number, of(), block([new Return(num(42))]))
             def cls = new ClassDescriptor('Greeter', of(), of(methodReturning42))
 
         when:
@@ -55,7 +57,7 @@ class CodeGeneratorTest extends Specification {
                     'identity',
                     Type.number,
                     of(new Parameter('input', Type.number)),
-                    of(new Return(ident('input')))
+                    block([new Return(ident('input'))])
             )
             def cls = new ClassDescriptor('Ident', of(), of(identityFunction))
 
@@ -78,7 +80,7 @@ class CodeGeneratorTest extends Specification {
                             new Parameter('lt', Type.number),
                             new Parameter('rt', Type.number)
                     ),
-                    of(new Return(add(ident('lt'), ident('rt'))))  //return lt + rt
+                    block([new Return(add(ident('lt'), ident('rt')))])  //return lt + rt
             )
             def cls = new ClassDescriptor('Cls', of(), of(identityFunction))
 
@@ -104,13 +106,13 @@ class CodeGeneratorTest extends Specification {
                                     new Parameter('c', Type.number),
                                     new Parameter('d', Type.number),
                             ),
-                            of(new Return(add(
+                            block([new Return(add(
                                     ident('a'),
                                     mul(
                                             ident('b'),
                                             add(
                                                     ident('c'),
-                                                    ident('d'))))))
+                                                    ident('d')))))])
                     )))
 
         when:
@@ -131,7 +133,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should fail with CompilationError when unknown symbol used'() {
         given:
-            Method methodReturning42 = new Method('answer', Type.number, of(), of(new Return(ident('bogus'))))
+            Method methodReturning42 = new Method('answer', Type.number, of(), block([ret(ident('bogus'))]))
             def cls = new ClassDescriptor('Greeter', of(), of(methodReturning42))
 
         when:
@@ -144,8 +146,8 @@ class CodeGeneratorTest extends Specification {
 
     def 'should call another private function'() {
         given:
-            Method methodCallingBar = new Method('foo', Type.number, of(), of(new Return(call('bar'))))
-            Method methodBar = new Method('bar', Type.number, of(), of(new Return(num(PI))))
+            Method methodCallingBar = new Method('foo', Type.number, of(), block([ret(call('bar'))]))
+            Method methodBar = new Method('bar', Type.number, of(), block([ret(num(PI))]))
             ClassDescriptor cls = new ClassDescriptor('Foo', of(), of(methodCallingBar, methodBar))
             def bytes = generator.generate(cls)
         when:
@@ -158,20 +160,18 @@ class CodeGeneratorTest extends Specification {
 
     def 'should call another private function with arguments'() {
         given:
-            Method methodCallingSub = new Method('buzz', Type.number, of(), of(new Return(call('sub', num(8), num(5)))))
+            Method methodCallingSub = new Method('buzz', Type.number, of(), block([ret(call('sub', num(8), num(5)))]))
             Method methodSub = new Method(
                     'sub',
                     Type.number,
                     of(new Parameter("s1", Type.number), new Parameter("s2", Type.number)),
-                    of(new Return(sub(ident('s1'), ident('s2')))))
+                    block([ret(sub(ident('s1'), ident('s2')))]))
             ClassDescriptor cls = new ClassDescriptor('Calculator', of(), of(methodCallingSub, methodSub))
             def bytes = generator.generate(cls)
-            //Files.write(bytes, new File('Calculator.class'));
         when:
             def generatedClass = classFrom(bytes)
 
         then:
-            def instance = generatedClass.newInstance()
-            generatedClass.getMethod("buzz").invoke(instance) == 3
+            generatedClass.newInstance().buzz() == 3
     }
 }

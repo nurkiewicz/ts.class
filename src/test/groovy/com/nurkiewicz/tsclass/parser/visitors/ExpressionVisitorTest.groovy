@@ -116,7 +116,7 @@ class ExpressionVisitorTest extends Specification {
 //        AstWindow.open(code)
         ClassDescriptor cls = new Parser().parse(code)
         Method method = cls.methods[0]
-        Return statement = method.statements[0] as Return
+        Return statement = method.body.statements[0] as Return
         return statement.expression
 
     }

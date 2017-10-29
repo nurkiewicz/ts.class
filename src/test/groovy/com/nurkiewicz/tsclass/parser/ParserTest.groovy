@@ -28,8 +28,8 @@ class ParserTest extends Specification {
             method.name == 'answer'
             method.type == Type.number
             method.parameters == []
-            method.statements.size() == 1
-            Return statement = method.statements[0] as Return
+            method.body.statements.size() == 1
+            Return statement = method.body.statements[0] as Return
             (statement.expression as NumberLiteral).value == 42.0d
     }
 
@@ -47,8 +47,8 @@ class ParserTest extends Specification {
         then:
             Method method = cls.methods[0]
             method.parameters == [new Parameter('x', new Type('string'))]
-            method.statements.size() == 1
-            Return statement = method.statements[0] as Return
+            method.body.statements.size() == 1
+            Return statement = method.body.statements[0] as Return
             (statement.expression as Identifier).name == 'x'
     }
 

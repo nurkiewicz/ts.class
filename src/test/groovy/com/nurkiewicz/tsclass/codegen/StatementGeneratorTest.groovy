@@ -11,6 +11,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.nurkiewicz.tsclass.parser.ast.Block.block
 import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 import static org.objectweb.asm.Opcodes.DLOAD
@@ -26,11 +27,11 @@ class StatementGeneratorTest extends Specification {
 
     private static ClassSymbols outerClass() {
         List<Method> methods = [
-                new Method('foo', Type.number, [], []),
+                new Method('foo', Type.number, [], block([])),
                 new Method('bar', Type.number, [
                         new Parameter('a', Type.number),
                         new Parameter('b', Type.number)
-                ], []),
+                ], block([])),
         ]
         return new ClassSymbols(new ClassDescriptor(CLASS_NAME, [], methods), new Empty())
     }
@@ -43,7 +44,7 @@ class StatementGeneratorTest extends Specification {
         then:
             bytecode == [
                     new Bytecode.IntArg(Opcodes.ALOAD, 0),
-                    new Bytecode.Call(INVOKESPECIAL, CLASS_NAME, new Method('foo', Type.number, [], []), false),
+                    new Bytecode.Call(INVOKESPECIAL, CLASS_NAME, new Method('foo', Type.number, [], block([])), false),
                     new Bytecode.NoArg(DRETURN)
             ]
     }
@@ -65,7 +66,11 @@ class StatementGeneratorTest extends Specification {
                     bytecode[0] == new Bytecode.IntArg(Opcodes.ALOAD, 0)
                     bytecode[1] == new Bytecode.IntArg(DLOAD, 1)
                     bytecode[2] == new Bytecode.IntArg(DLOAD, 3)
-                    bytecode[3] == new Bytecode.Call(INVOKESPECIAL, CLASS_NAME, new Method('bar', Type.number, [new Parameter('a', Type.number), new Parameter('b', Type.number)], []), false)
+                    bytecode[3] == new Bytecode.Call(INVOKESPECIAL, CLASS_NAME,
+                            new Method('bar',
+                                    Type.number,
+                                    [new Parameter('a', Type.number), new Parameter('b', Type.number)],
+                                    block([])), false)
                     bytecode[4] == new Bytecode.NoArg(DRETURN)
     }
 

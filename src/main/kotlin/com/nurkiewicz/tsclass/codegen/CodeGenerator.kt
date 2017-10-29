@@ -31,7 +31,7 @@ class CodeGenerator(
     private fun generateMethod(writer: ClassWriter, m: Method, classSymbols: SymbolTable) {
         val mv = writer.visitMethod(ACC_PUBLIC, m.name, m.methodDescriptor(), null, null)
         val methodSymbols = MethodParameters(m, classSymbols)
-        val code: List<Bytecode> = m.statements.flatMap { statementGenerator.generate(it, methodSymbols) }
+        val code: List<Bytecode> = m.body.statements.flatMap { statementGenerator.generate(it, methodSymbols) }
         methodEmitter.emitBytecode(mv, code)
         mv.visitMaxs(0, 0)
         mv.visitEnd()

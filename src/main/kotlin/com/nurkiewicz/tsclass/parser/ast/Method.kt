@@ -6,7 +6,7 @@ data class Method(
         val name: String,
         val type: Type,
         val parameters: List<Parameter>,
-        val statements: List<Statement>) {
+        val body: Block) {
 
     fun methodDescriptor(): String {
         return org.objectweb.asm.Type.getMethodDescriptor(type.toJavaType(), *paramJavaTypes)

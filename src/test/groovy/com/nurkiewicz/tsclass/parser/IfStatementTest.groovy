@@ -27,7 +27,7 @@ class IfStatementTest extends Specification {
         when:
             ClassDescriptor cls = new Parser().parse(code)
         then:
-            cls.methods[0].statements == [expectedAst]
+            cls.methods[0].body.statements == [expectedAst]
         where:
             ifCode                                       || expectedAst
             'if(num >= 0) return num; else return -num;' || ifs(gte(ident('num'), num(0)), block([ret(ident('num'))]), block([ret(neg(ident('num')))]))
