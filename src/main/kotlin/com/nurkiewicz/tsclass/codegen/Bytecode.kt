@@ -14,7 +14,7 @@ sealed class Bytecode {
     }
 
     data class LabelPlace(val label: Label) : Bytecode() {
-        override fun toString(): String = ": " + label
+        override fun toString(): String = label.toString()
     }
 
     data class IntArg(val code: Int, val arg: Int) : Bytecode() {
