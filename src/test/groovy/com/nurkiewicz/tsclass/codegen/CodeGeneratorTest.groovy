@@ -48,7 +48,7 @@ class CodeGeneratorTest extends Specification {
             def generatedClass = classFrom(bytes)
             generatedClass.name == 'Greeter'
             def instance = generatedClass.newInstance()
-            generatedClass.getMethod("answer").invoke(instance) == 42.0d
+            instance.answer() == 42.0d
     }
 
     def 'should generate identity function'() {
@@ -67,8 +67,7 @@ class CodeGeneratorTest extends Specification {
         then:
             def generatedClass = classFrom(bytes)
             generatedClass.name == 'Ident'
-            def instance = generatedClass.newInstance()
-            generatedClass.getMethod("identity", double.class).invoke(instance, 17) == 17
+            generatedClass.newInstance().identity(17) == 17
     }
 
     def 'should generate function adding two arguments'() {
@@ -89,8 +88,7 @@ class CodeGeneratorTest extends Specification {
 
         then:
             def generatedClass = classFrom(bytes)
-            def instance = generatedClass.newInstance()
-            generatedClass.getMethod("addUp", double.class, double.class).invoke(instance, 2, 3) == 5
+            generatedClass.newInstance().addUp(2, 3) == 5
     }
 
     def 'should generate function with expression a + b * (c + d) for: #a + #b * (#c + #d) == #expected'() {
@@ -119,9 +117,7 @@ class CodeGeneratorTest extends Specification {
             def bytes = generator.generate(cls)
         then:
             def generatedClass = classFrom(bytes)
-            def instance = generatedClass.newInstance()
-            java.lang.reflect.Method m = generatedClass.getMethod("complex", double.class, double.class, double.class, double.class)
-            m.invoke(instance, a, b, c, d) == expected
+            generatedClass.newInstance().complex(a, b, c, d) == expected
         where:
             a     | b  | c  | d  || expected
             0     | 0  | 0  | 0  || 0
@@ -154,8 +150,7 @@ class CodeGeneratorTest extends Specification {
             def generatedClass = classFrom(bytes)
 
         then:
-            def instance = generatedClass.newInstance()
-            generatedClass.getMethod("foo").invoke(instance) == PI
+            generatedClass.newInstance().foo() == PI
     }
 
     def 'should call another private function with arguments'() {
