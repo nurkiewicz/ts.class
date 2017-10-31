@@ -1,11 +1,9 @@
 package com.nurkiewicz.tsclass.parser.visitors
 
-import com.nurkiewicz.tsclass.parser.Parser
+import com.nurkiewicz.tsclass.parser.MethodParser
 import com.nurkiewicz.tsclass.parser.ast.AdditiveExpression
-import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Expression
 import com.nurkiewicz.tsclass.parser.ast.Identifier
-import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression
 import com.nurkiewicz.tsclass.parser.ast.NumberLiteral
 import com.nurkiewicz.tsclass.parser.ast.Return
@@ -105,19 +103,8 @@ class ExpressionVisitorTest extends Specification {
             'g(4) * f()'  || mul(call("g", num(4)), call("f"))
     }
 
-    private static Expression parse(String value) {
-        String code = """
-                class Test {
-                    fun(): number {
-                        return $value;
-                    }
-                }
-            """
-//        AstWindow.open(code)
-        ClassDescriptor cls = new Parser().parse(code)
-        Method method = cls.methods[0]
-        Return statement = method.body.statements[0] as Return
-        return statement.expression
+    private static Expression parse(String value, boolean showAst = false) {
+        return (MethodParser.parse("return " + value, showAst).statements[0] as Return).expression
 
     }
 

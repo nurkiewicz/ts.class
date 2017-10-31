@@ -1,9 +1,7 @@
 package com.nurkiewicz.tsclass.parser.visitors
 
-import com.nurkiewicz.tsclass.parser.AstWindow
-import com.nurkiewicz.tsclass.parser.Parser
+import com.nurkiewicz.tsclass.parser.MethodParser
 import com.nurkiewicz.tsclass.parser.ast.Block
-import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 
 import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
@@ -87,18 +85,7 @@ class StatementVisitorTest extends Specification {
     }
 
     private static Block parse(String body, boolean showAst = false) {
-        String code = """
-                class Test {
-                    fun(): number {
-                        $body;
-                    }
-                }
-            """
-        if (showAst) {
-            AstWindow.open(code)
-        }
-        ClassDescriptor cls = new Parser().parse(code)
-        return cls.methods[0].body
+        return MethodParser.parse(body, showAst)
     }
 
 

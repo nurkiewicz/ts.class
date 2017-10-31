@@ -5,7 +5,6 @@ import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
 import com.nurkiewicz.tsclass.parser.ast.Expression
 import com.nurkiewicz.tsclass.parser.ast.Identifier
 import com.nurkiewicz.tsclass.parser.ast.NumberLiteral
-import java.lang.Double
 
 internal class MemberExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
     override fun visitPrimaryExpression(ctx: TypeScriptParser.PrimaryExpressionContext): Expression {
@@ -16,7 +15,7 @@ internal class MemberExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
             Identifier(ctx.IDENT().text)
         } else ctx.accept(object : TypeScriptBaseVisitor<Expression>() {
             override fun visitLiteral(ctx: TypeScriptParser.LiteralContext): Expression {
-                return NumberLiteral(Double.valueOf(ctx.NUMERIC_LITERAL().text))
+                return NumberLiteral(ctx.NUMERIC_LITERAL().text.toDouble())
             }
         })
     }
