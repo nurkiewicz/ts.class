@@ -4,7 +4,7 @@ import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 
-class ArgumentListVisitor: TypeScriptBaseVisitor<List<Expression>>() {
+internal class ArgumentListVisitor: TypeScriptBaseVisitor<List<Expression>>() {
 
     override fun defaultResult(): List<Expression> {
         return emptyList()

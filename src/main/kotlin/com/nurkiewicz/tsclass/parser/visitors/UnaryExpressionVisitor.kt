@@ -5,7 +5,7 @@ import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 import com.nurkiewicz.tsclass.parser.ast.expr.Neg
 
-class UnaryExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
+internal class UnaryExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
 
     override fun visitUnaryExpression(ctx: TypeScriptParser.UnaryExpressionContext): Expression {
         if (ctx.postfixExpression() != null) {

@@ -4,7 +4,6 @@ import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.nurkiewicz.tsclass.parser.ast.Block.block
 import static com.nurkiewicz.tsclass.parser.ast.If.ifs
 import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
@@ -30,10 +29,10 @@ class IfStatementTest extends Specification {
             cls.methods[0].body.statements == [expectedAst]
         where:
             ifCode                                       || expectedAst
-            'if(num >= 0) return num; else return -num;' || ifs(gte(ident('num'), num(0)), block([ret(ident('num'))]), block([ret(neg(ident('num')))]))
-            'if(x < y) return x; else return y;'         || ifs(lt(ident('x'), ident('y')), block([ret(ident('x'))]), block([ret(ident('y'))]))
-            'if(x > f(x)) return x;'                     || ifs(gt(ident('x'), call('f', ident('x'))), block([ret(ident('x'))]))
-            'if(a <= b + c) return b + (c - a);'         || ifs(lte(ident('a'), add(ident('b'), ident('c'))), block([ret(add(ident('b'), sub(ident('c'), ident('a'))))]))
+            'if(num >= 0) return num; else return -num;' || ifs(gte(ident('num'), num(0)), ret(ident('num')), ret(neg(ident('num'))))
+            'if(x < y) return x; else return y;'         || ifs(lt(ident('x'), ident('y')), ret(ident('x')), ret(ident('y')))
+            'if(x > f(x)) return x;'                     || ifs(gt(ident('x'), call('f', ident('x'))), ret(ident('x')))
+            'if(a <= b + c) return b + (c - a);'         || ifs(lte(ident('a'), add(ident('b'), ident('c'))), ret(add(ident('b'), sub(ident('c'), ident('a')))))
     }
 
     String ifStatement(String code) {

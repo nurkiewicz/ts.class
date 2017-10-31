@@ -1,7 +1,7 @@
 package com.nurkiewicz.tsclass.codegen
 
-import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.If
+import com.nurkiewicz.tsclass.parser.ast.Statement
 import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes
 
@@ -21,7 +21,7 @@ class IfGenerator(private val expressionGenerator: ExpressionGenerator ) {
         }
     }
 
-    private fun blockToBytecode(block: Block, tab: SymbolTable, statementGenerator: StatementGenerator) =
-            block.statements.flatMap { statementGenerator.generate(it, tab) }
+    private fun blockToBytecode(statement: Statement, tab: SymbolTable, statementGenerator: StatementGenerator) =
+            statementGenerator.generate(statement, tab)
 
 }

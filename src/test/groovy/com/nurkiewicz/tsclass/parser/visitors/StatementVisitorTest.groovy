@@ -23,7 +23,7 @@ class StatementVisitorTest extends Specification {
             Block block = parse(code)
         then:
             block.statements == [
-                    ifs(ident('alpha'), Block.block([ret(ident('beta'))])),
+                    ifs(ident('alpha'), ret(ident('beta'))),
                     ret(ident('gamma'))
             ]
     }
@@ -43,11 +43,46 @@ class StatementVisitorTest extends Specification {
             Block block = parse(code)
         then:
             block.statements == [
-                    ifs(ident('alpha'), Block.block([ret(ident('beta'))])),
-                    ifs(ident('gamma'), Block.block([ret(ident('delta'))])),
-                    ifs(ident('epsilon'), Block.block([ret(ident('zeta'))])),
+                    ifs(ident('alpha'), ret(ident('beta'))),
+                    ifs(ident('gamma'), ret(ident('delta'))),
+                    ifs(ident('epsilon'), ret(ident('zeta'))),
                     ret(ident('eta'))
             ]
+    }
+
+    def 'should parse if with multiple "then" statements'() {
+        given:
+            String code = """
+                            if(alpha) {
+                                if(beta) {
+                                    return gamma;
+                                }
+                                if(delta)
+                                    return epsilon;
+                                if(eta) {
+                                    return theta; 
+                                } else {
+                                    return iota;
+                                }
+                            }
+                            return eta;
+                          """
+        when:
+            Block block = parse(code)
+        then:
+            block.statements.size() == 2
+            block.statements[0] == ifs(
+                    ident('alpha'),
+                    Block.block([
+                            ifs(ident('beta'), Block.block([ret(ident('gamma'))])),
+                            ifs(ident('delta'), ret(ident('epsilon'))),
+                            ifs(ident('eta'),
+                                    Block.block([ret(ident('theta'))]),
+                                    Block.block([ret(ident('iota'))])),
+                    ])
+            )
+            block.statements[1] == ret(ident('eta'))
+
     }
 
     private static Block parse(String body, boolean showAst = false) {

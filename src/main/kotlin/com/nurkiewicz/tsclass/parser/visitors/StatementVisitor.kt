@@ -6,7 +6,6 @@ import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.If
 import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Statement
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 
 internal class StatementVisitor : TypeScriptBaseVisitor<Statement>() {
 
@@ -16,12 +15,11 @@ internal class StatementVisitor : TypeScriptBaseVisitor<Statement>() {
     }
 
     override fun visitIfStatement(ctx: TypeScriptParser.IfStatementContext): Statement {
-        val condition: Expression = ctx.expression().accept(ExpressionVisitor())
-        val ifBlock: Statement = ctx.ifBlock.accept(this)
-        val elseBlock: Block? = when(ctx.elseBlock) {
-            null -> null
-            else -> Block(listOf(ctx.elseBlock.accept(this)))
-        }
-        return If(condition, Block(listOf(ifBlock)), elseBlock)
+        return If(
+                ctx.expression().accept(ExpressionVisitor()),
+                ctx.ifBlock.accept(this),
+                ctx.elseBlock?.accept(this))
     }
+
+    override fun visitBlock(ctx: TypeScriptParser.BlockContext): Block = ctx.accept(BlockVisitor())
 }

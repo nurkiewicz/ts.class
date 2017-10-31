@@ -1,6 +1,7 @@
 package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.codegen.Bytecode.NoArg
+import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.If
 import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Statement
@@ -17,6 +18,8 @@ class StatementGenerator(
                 expressionGenerator.generate(statement.expression, tab) + NoArg(Opcodes.DRETURN)
             is If ->
                 ifGenerator.generate(statement, tab, this)
+            is Block ->
+                statement.statements.flatMap { generate(it, tab) }
         }
     }
 

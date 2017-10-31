@@ -27,11 +27,11 @@ class StatementGeneratorTest extends Specification {
 
     private static ClassSymbols outerClass() {
         List<Method> methods = [
-                new Method('foo', Type.number, [], block([])),
+                new Method('foo', Type.number, [], block()),
                 new Method('bar', Type.number, [
                         new Parameter('a', Type.number),
                         new Parameter('b', Type.number)
-                ], block([])),
+                ], block()),
         ]
         return new ClassSymbols(new ClassDescriptor(CLASS_NAME, [], methods), new Empty())
     }
@@ -44,7 +44,7 @@ class StatementGeneratorTest extends Specification {
         then:
             bytecode == [
                     new Bytecode.IntArg(Opcodes.ALOAD, 0),
-                    new Bytecode.Call(INVOKESPECIAL, CLASS_NAME, new Method('foo', Type.number, [], block([])), false),
+                    new Bytecode.Call(INVOKESPECIAL, CLASS_NAME, new Method('foo', Type.number, [], block()), false),
                     new Bytecode.NoArg(DRETURN)
             ]
     }
@@ -70,7 +70,7 @@ class StatementGeneratorTest extends Specification {
                             new Method('bar',
                                     Type.number,
                                     [new Parameter('a', Type.number), new Parameter('b', Type.number)],
-                                    block([])), false)
+                                    block()), false)
                     bytecode[4] == new Bytecode.NoArg(DRETURN)
     }
 
