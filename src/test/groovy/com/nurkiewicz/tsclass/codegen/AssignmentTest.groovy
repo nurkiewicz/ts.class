@@ -95,4 +95,20 @@ class AssignmentTest extends Specification {
             ]
     }
 
+    def 'unable to access local variable before it is defined'() {
+        given:
+            Statement statement = block([
+                    assign('foo', ident('bar')),
+                    assign('bar', num(1)),
+                    ret(add(ident('x'), ident('y')))
+            ])
+        and:
+            MethodParameters symbols = new MethodParameters([:], new Empty())
+        when:
+            generator.generate(statement, symbols).bytecode
+        then:
+            UnknownSymbol e = thrown(UnknownSymbol)
+            e.message.contains("bar")
+    }
+
 }

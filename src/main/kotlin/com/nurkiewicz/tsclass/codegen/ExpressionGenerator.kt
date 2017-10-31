@@ -1,6 +1,5 @@
 package com.nurkiewicz.tsclass.codegen
 
-import com.nurkiewicz.tsclass.CompilationError
 import com.nurkiewicz.tsclass.parser.ast.AdditiveExpression
 import com.nurkiewicz.tsclass.parser.ast.Expression
 import com.nurkiewicz.tsclass.parser.ast.Identifier
@@ -62,7 +61,7 @@ class ExpressionGenerator {
         return when (symbol) {
             is Symbol.MethodParameter -> listOf(Bytecode.IntArg(DLOAD, symbol.offset))
             is Symbol.LocalVariable -> listOf(Bytecode.IntArg(DLOAD, symbol.offset))
-            null -> throw CompilationError("Unknown symbol ${expression.name}")
+            null -> throw UnknownSymbol(expression.name)
         }
     }
 

@@ -5,3 +5,6 @@ import com.nurkiewicz.tsclass.parser.ast.MethodCall
 
 class UnknownMethod(call: MethodCall):
         CompilationError("Can't find method for name ${call.name} with ${call.parameters.size} parameters")
+
+class UnknownSymbol(name: String):
+        CompilationError("Can't find symbol $name")
