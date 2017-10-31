@@ -6,7 +6,7 @@ import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 
-import static com.nurkiewicz.tsclass.parser.ast.If.ifs
+import static com.nurkiewicz.tsclass.StatementBuilder.ifs
 import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 

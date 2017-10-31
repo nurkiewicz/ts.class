@@ -677,7 +677,7 @@ statement
     ;
 
 variableStatement
-    : 'var' variableDeclarationList ';'
+    : 'let' variableDeclarationList ';'
     ;
 
 variableDeclarationList
