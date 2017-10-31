@@ -9,7 +9,7 @@ internal class BlockVisitor: TypeScriptBaseVisitor<Block>() {
     override fun visitBlock(ctx: TypeScriptParser.BlockContext): Block {
         val statementList = ctx.statementList()
         return when(statementList) {
-            null -> Block.block()
+            null -> Block(emptyList())
             else -> Block(statementList.accept(StatementListVisitor()))
         }
     }

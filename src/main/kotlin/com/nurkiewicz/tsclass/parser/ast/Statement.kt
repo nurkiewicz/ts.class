@@ -20,14 +20,4 @@ data class Block(val statements: List<Statement>): Statement() {
 
     override fun toString() = statements.toString()
 
-    companion object {
-
-        @JvmStatic
-        fun block(statements: List<Statement>) = Block(statements)
-
-        @JvmStatic
-        fun block() = block(emptyList())
-
-    }
-
 }

@@ -6,6 +6,7 @@ import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 
+import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ifs
 import static com.nurkiewicz.tsclass.parser.ast.Return.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
@@ -68,20 +69,20 @@ class StatementVisitorTest extends Specification {
                             return eta;
                           """
         when:
-            Block block = parse(code)
+            Block blk = parse(code)
         then:
-            block.statements.size() == 2
-            block.statements[0] == ifs(
+            blk.statements.size() == 2
+            blk.statements[0] == ifs(
                     ident('alpha'),
-                    Block.block([
-                            ifs(ident('beta'), Block.block([ret(ident('gamma'))])),
+                    block([
+                            ifs(ident('beta'), block([ret(ident('gamma'))])),
                             ifs(ident('delta'), ret(ident('epsilon'))),
                             ifs(ident('eta'),
-                                    Block.block([ret(ident('theta'))]),
-                                    Block.block([ret(ident('iota'))])),
+                                    block([ret(ident('theta'))]),
+                                    block([ret(ident('iota'))])),
                     ])
             )
-            block.statements[1] == ret(ident('eta'))
+            blk.statements[1] == ret(ident('eta'))
 
     }
 
