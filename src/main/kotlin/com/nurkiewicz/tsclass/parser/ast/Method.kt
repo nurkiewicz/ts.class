@@ -1,7 +1,5 @@
 package com.nurkiewicz.tsclass.parser.ast
 
-import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
-
 data class Method(
         val name: String,
         val type: Type,

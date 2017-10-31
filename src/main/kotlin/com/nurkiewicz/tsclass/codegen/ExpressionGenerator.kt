@@ -1,14 +1,14 @@
 package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.CompilationError
-import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
-import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
-import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
-import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
-import com.nurkiewicz.tsclass.parser.ast.expr.Neg
-import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
-import com.nurkiewicz.tsclass.parser.ast.expr.Relational
+import com.nurkiewicz.tsclass.parser.ast.AdditiveExpression
+import com.nurkiewicz.tsclass.parser.ast.Expression
+import com.nurkiewicz.tsclass.parser.ast.Identifier
+import com.nurkiewicz.tsclass.parser.ast.MethodCall
+import com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression
+import com.nurkiewicz.tsclass.parser.ast.Neg
+import com.nurkiewicz.tsclass.parser.ast.NumberLiteral
+import com.nurkiewicz.tsclass.parser.ast.Relational
 import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.DLOAD
@@ -40,8 +40,6 @@ class ExpressionGenerator {
                         generate(expression.right, tab) +
                         Bytecode.NoArg(Opcodes.DCMPL) +
                         operatorToConditionalJump(expression.operator)
-            else ->
-                throw IllegalArgumentException("Unsupported expression: $expression")
         }
     }
 

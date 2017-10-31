@@ -1,12 +1,12 @@
 package com.nurkiewicz.tsclass.parser
 
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
+import com.nurkiewicz.tsclass.parser.ast.Identifier
 import com.nurkiewicz.tsclass.parser.ast.Method
+import com.nurkiewicz.tsclass.parser.ast.NumberLiteral
 import com.nurkiewicz.tsclass.parser.ast.Parameter
 import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Type
-import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
-import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
 import spock.lang.Specification
 
 class ParserTest extends Specification {

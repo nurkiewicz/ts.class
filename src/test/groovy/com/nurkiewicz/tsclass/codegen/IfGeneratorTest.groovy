@@ -6,13 +6,13 @@ import org.objectweb.asm.Label
 import spock.lang.Shared
 import spock.lang.Specification
 
+import static com.nurkiewicz.tsclass.ExpressionBuilder.gte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
+import static com.nurkiewicz.tsclass.ExpressionBuilder.neg
+import static com.nurkiewicz.tsclass.ExpressionBuilder.num
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ifs
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
-import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
-import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gte
 import static org.objectweb.asm.Opcodes.DCMPL
 import static org.objectweb.asm.Opcodes.DLOAD
 import static org.objectweb.asm.Opcodes.DNEG

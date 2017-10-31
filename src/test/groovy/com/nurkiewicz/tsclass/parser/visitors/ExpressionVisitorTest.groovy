@@ -1,35 +1,35 @@
 package com.nurkiewicz.tsclass.parser.visitors
 
 import com.nurkiewicz.tsclass.parser.Parser
+import com.nurkiewicz.tsclass.parser.ast.AdditiveExpression
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
+import com.nurkiewicz.tsclass.parser.ast.Expression
+import com.nurkiewicz.tsclass.parser.ast.Identifier
 import com.nurkiewicz.tsclass.parser.ast.Method
+import com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression
+import com.nurkiewicz.tsclass.parser.ast.NumberLiteral
 import com.nurkiewicz.tsclass.parser.ast.Return
-import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
-import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
-import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
-import com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator.MINUS
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.Operator.PLUS
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
-import static com.nurkiewicz.tsclass.parser.ast.expr.MethodCall.call
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.DIV
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MOD
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.Operator.MUL
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.div
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mod
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mul
-import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
-import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gt
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gte
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lt
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.add
+import static com.nurkiewicz.tsclass.ExpressionBuilder.call
+import static com.nurkiewicz.tsclass.ExpressionBuilder.div
+import static com.nurkiewicz.tsclass.ExpressionBuilder.gt
+import static com.nurkiewicz.tsclass.ExpressionBuilder.gte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
+import static com.nurkiewicz.tsclass.ExpressionBuilder.lt
+import static com.nurkiewicz.tsclass.ExpressionBuilder.lte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.mod
+import static com.nurkiewicz.tsclass.ExpressionBuilder.mul
+import static com.nurkiewicz.tsclass.ExpressionBuilder.neg
+import static com.nurkiewicz.tsclass.ExpressionBuilder.num
+import static com.nurkiewicz.tsclass.ExpressionBuilder.sub
+import static com.nurkiewicz.tsclass.parser.ast.AdditiveExpression.Operator.MINUS
+import static com.nurkiewicz.tsclass.parser.ast.AdditiveExpression.Operator.PLUS
+import static com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression.Operator.DIV
+import static com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression.Operator.MOD
+import static com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression.Operator.MUL
 
 @Unroll
 class ExpressionVisitorTest extends Specification {

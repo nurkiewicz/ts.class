@@ -1,7 +1,5 @@
 package com.nurkiewicz.tsclass.parser.ast
 
-import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
-
 data class ClassDescriptor(
     val name: String,
     val fields: List<Field>,

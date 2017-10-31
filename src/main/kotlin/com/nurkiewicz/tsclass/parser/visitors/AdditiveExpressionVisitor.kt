@@ -2,8 +2,8 @@ package com.nurkiewicz.tsclass.parser.visitors
 
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
-import com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
+import com.nurkiewicz.tsclass.parser.ast.AdditiveExpression
+import com.nurkiewicz.tsclass.parser.ast.Expression
 
 internal class AdditiveExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
     override fun visitAdditiveExpression(ctx: TypeScriptParser.AdditiveExpressionContext): Expression {

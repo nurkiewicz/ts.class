@@ -2,9 +2,9 @@ package com.nurkiewicz.tsclass.parser.visitors
 
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
-import com.nurkiewicz.tsclass.parser.ast.expr.Identifier
-import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
+import com.nurkiewicz.tsclass.parser.ast.Expression
+import com.nurkiewicz.tsclass.parser.ast.Identifier
+import com.nurkiewicz.tsclass.parser.ast.MethodCall
 
 internal class LeftHandSideExpressionVisitor: TypeScriptBaseVisitor<Expression>() {
 

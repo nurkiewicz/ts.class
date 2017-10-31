@@ -13,14 +13,14 @@ import spock.lang.Subject
 import spock.lang.Unroll
 
 import static com.google.common.collect.ImmutableList.of
+import static com.nurkiewicz.tsclass.ExpressionBuilder.add
+import static com.nurkiewicz.tsclass.ExpressionBuilder.call
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
+import static com.nurkiewicz.tsclass.ExpressionBuilder.mul
+import static com.nurkiewicz.tsclass.ExpressionBuilder.num
+import static com.nurkiewicz.tsclass.ExpressionBuilder.sub
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
-import static com.nurkiewicz.tsclass.parser.ast.expr.MethodCall.call
-import static com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression.mul
-import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
 import static java.lang.Math.PI
 
 @Unroll

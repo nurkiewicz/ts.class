@@ -2,18 +2,19 @@ package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
+import com.nurkiewicz.tsclass.parser.ast.MethodCall
 import com.nurkiewicz.tsclass.parser.ast.Parameter
 import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Type
-import com.nurkiewicz.tsclass.parser.ast.expr.MethodCall
 import org.objectweb.asm.Opcodes
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.nurkiewicz.tsclass.ExpressionBuilder.call
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 import static org.objectweb.asm.Opcodes.DLOAD
 import static org.objectweb.asm.Opcodes.DRETURN
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL
@@ -38,7 +39,7 @@ class StatementGeneratorTest extends Specification {
 
     def 'should generate return statement calling another private method without arguments'() {
         given:
-            Return statement = ret(MethodCall.call("foo"))
+            Return statement = ret(call("foo"))
         when:
             List<Bytecode> bytecode = generator.generate(statement, outerClass())
         then:
@@ -54,7 +55,7 @@ class StatementGeneratorTest extends Specification {
 
     def 'should generate return statement calling another private method using two of its arguments'() {
         given:
-            MethodCall callToBar = MethodCall.call("bar", ident(ONE), ident(TWO))
+            MethodCall callToBar = call("bar", ident(ONE), ident(TWO))
             Return statement = ret(callToBar)
             MethodParameters methodParameters = new MethodParameters([
                     (ONE): new Symbol.MethodParameter(1, Type.number),

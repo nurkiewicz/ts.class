@@ -2,8 +2,8 @@ package com.nurkiewicz.tsclass.parser.visitors
 
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptBaseVisitor
 import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
-import com.nurkiewicz.tsclass.parser.ast.expr.MultiplicativeExpression
+import com.nurkiewicz.tsclass.parser.ast.Expression
+import com.nurkiewicz.tsclass.parser.ast.MultiplicativeExpression
 
 internal class MultiplicativeExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
 

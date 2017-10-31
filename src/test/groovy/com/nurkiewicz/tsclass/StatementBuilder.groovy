@@ -1,10 +1,10 @@
 package com.nurkiewicz.tsclass
 
 import com.nurkiewicz.tsclass.parser.ast.Block
+import com.nurkiewicz.tsclass.parser.ast.Expression
 import com.nurkiewicz.tsclass.parser.ast.If
 import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Statement
-import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 
 class StatementBuilder {
 

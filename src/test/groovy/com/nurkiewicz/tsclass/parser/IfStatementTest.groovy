@@ -4,18 +4,18 @@ import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.nurkiewicz.tsclass.ExpressionBuilder.add
+import static com.nurkiewicz.tsclass.ExpressionBuilder.call
+import static com.nurkiewicz.tsclass.ExpressionBuilder.gt
+import static com.nurkiewicz.tsclass.ExpressionBuilder.gte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
+import static com.nurkiewicz.tsclass.ExpressionBuilder.lt
+import static com.nurkiewicz.tsclass.ExpressionBuilder.lte
+import static com.nurkiewicz.tsclass.ExpressionBuilder.neg
+import static com.nurkiewicz.tsclass.ExpressionBuilder.num
+import static com.nurkiewicz.tsclass.ExpressionBuilder.sub
 import static com.nurkiewicz.tsclass.StatementBuilder.ifs
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
-import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
-import static com.nurkiewicz.tsclass.parser.ast.expr.MethodCall.call
-import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
-import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gt
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.gte
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lt
-import static com.nurkiewicz.tsclass.parser.ast.expr.Relational.lte
 
 @Unroll
 class IfStatementTest extends Specification {

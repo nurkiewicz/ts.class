@@ -6,10 +6,10 @@ import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import spock.lang.Specification
 
+import static com.nurkiewicz.tsclass.ExpressionBuilder.ident
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ifs
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
-import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 
 class StatementVisitorTest extends Specification {
 
