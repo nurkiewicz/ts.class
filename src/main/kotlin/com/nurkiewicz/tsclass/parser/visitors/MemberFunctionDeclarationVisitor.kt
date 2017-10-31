@@ -13,7 +13,7 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
 
     override fun visitMemberFunctionDeclaration(ctx: TypeScriptParser.MemberFunctionDeclarationContext): Method {
         val sig = ctx.memberFunctionImplementation().functionSignature()
-        val methodName = sig.IDENT().getText()
+        val methodName = sig.IDENT().text
         val typeCtx = sig.returnTypeAnnotation().returnType().type()
         return Method(methodName, typeOf(typeCtx), parameters(sig), parseBody(ctx))
     }
@@ -28,7 +28,7 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
     }
 
     private fun typeOf(typeCtx: TypeScriptParser.TypeContext?): Type {
-        return Type(if (typeCtx != null) typeCtx.typeName().getText() else "void")
+        return Type(if (typeCtx != null) typeCtx.typeName().text else "void")
     }
 
     private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext) = Block(
@@ -43,8 +43,8 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
     private class RequiredParameterListVisitor : TypeScriptBaseVisitor<List<Parameter>>() {
 
         override fun visitRequiredParameter(ctx: TypeScriptParser.RequiredParameterContext): List<Parameter> {
-            val name = ctx.IDENT().getText()
-            val typeName = Type(ctx.typeAnnotation().type().typeName().moduleOrTypeName().IDENT().getText())
+            val name = ctx.IDENT().text
+            val typeName = ctx.typeAnnotation().accept(TypeVisitor)
             val parameter = Parameter(name, typeName)
             return Lists.newArrayList(parameter)
         }

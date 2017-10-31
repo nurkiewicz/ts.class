@@ -5,7 +5,7 @@ import com.nurkiewicz.tsclass.antlr.parser.TypeScriptParser
 import com.nurkiewicz.tsclass.parser.ast.Expression
 import com.nurkiewicz.tsclass.parser.ast.Relational
 
-internal class ExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
+internal object ExpressionVisitor : TypeScriptBaseVisitor<Expression>() {
 
     override fun visitRelationalExpression(ctx: TypeScriptParser.RelationalExpressionContext): Expression {
         return if (ctx.relationalOperator() != null) {

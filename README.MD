@@ -11,3 +11,5 @@ This is a work-in-progress with very little features so far.
 
 * use the same code for front-end and back-end (which is not JavaScript)
 * server-side performance by avoiding transpilation to dynamically typed JavaScript
+
+It's truly polyglot: TypeScript compiler, written in Kotlin, tested with Groovy, targeting Java VM.

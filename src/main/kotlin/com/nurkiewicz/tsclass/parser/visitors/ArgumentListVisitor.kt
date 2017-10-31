@@ -11,7 +11,7 @@ internal class ArgumentListVisitor: TypeScriptBaseVisitor<List<Expression>>() {
     }
 
     override fun visitAssignmentExpression(ctx: TypeScriptParser.AssignmentExpressionContext): List<Expression> {
-        return listOf(ctx.accept(ExpressionVisitor()))
+        return listOf(ctx.accept(ExpressionVisitor))
     }
 
     override fun aggregateResult(aggregate: List<Expression>, nextResult: List<Expression>): List<Expression> {

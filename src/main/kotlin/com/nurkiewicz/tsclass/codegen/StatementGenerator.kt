@@ -20,6 +20,7 @@ class StatementGenerator(
                 ifGenerator.generate(statement, tab, this)
             is Block ->
                 statement.statements.flatMap { generate(it, tab) }
+            else -> TODO("Not yet implemented")
         }
     }
 
