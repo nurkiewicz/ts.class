@@ -7,5 +7,5 @@ import com.nurkiewicz.tsclass.parser.ast.Type
 internal object TypeVisitor : TypeScriptBaseVisitor<Type>() {
 
     override fun visitTypeAnnotation(ctx: TypeScriptParser.TypeAnnotationContext) =
-            Type(ctx.type().typeName().moduleOrTypeName().IDENT().text, 2)
+            Type(ctx.type().typeName().moduleOrTypeName().IDENT().text)
 }

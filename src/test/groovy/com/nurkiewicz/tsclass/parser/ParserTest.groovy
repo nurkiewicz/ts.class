@@ -37,7 +37,7 @@ class ParserTest extends Specification {
         given:
             String code = """
                 class Identity {
-                    identity(x: string): number {
+                    identity(x: string): string {
                         return x;
                     }
                 }
@@ -67,7 +67,7 @@ class ParserTest extends Specification {
             cls.methods.size() == 1
             Method method = cls.methods[0]
             method.name == 'answer'
-            method.parameters == [new Parameter("question", new Type("number"))]
+            method.parameters == [new Parameter("question", Type.number)]
     }
 
     def 'should parse method with two parameters'() {
@@ -86,7 +86,7 @@ class ParserTest extends Specification {
             Method method = cls.methods[0]
             method.name == 'answer'
             method.parameters == [
-                    new Parameter("q", new Type("number")),
+                    new Parameter("q", Type.number),
                     new Parameter("hint", new Type("string"))
             ]
     }

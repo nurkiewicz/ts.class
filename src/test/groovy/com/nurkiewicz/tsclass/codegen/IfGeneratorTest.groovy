@@ -35,7 +35,7 @@ class IfGeneratorTest extends Specification {
             ], new Empty())
 
         when:
-            List<Bytecode> bytecode = generator.generate(ifs, symbols)
+            List<Bytecode> bytecode = generator.generate(ifs, symbols).bytecode
         then:
             bytecode[0] == new Bytecode.IntArg(DLOAD, 1)
             bytecode[1] == new Bytecode.DoubleArg(LDC, 0)
@@ -53,7 +53,7 @@ class IfGeneratorTest extends Specification {
             ], new Empty())
 
         when:
-            List<Bytecode> bytecode = generator.generate(ifs, symbols)
+            List<Bytecode> bytecode = generator.generate(ifs, symbols).bytecode
         then:
             bytecode[0] == new Bytecode.IntArg(DLOAD, 1)
             bytecode[1] == new Bytecode.DoubleArg(LDC, 0)

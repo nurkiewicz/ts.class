@@ -41,7 +41,7 @@ class StatementGeneratorTest extends Specification {
         given:
             Return statement = ret(call("foo"))
         when:
-            List<Bytecode> bytecode = generator.generate(statement, outerClass())
+            List<Bytecode> bytecode = generator.generate(statement, outerClass()).bytecode
         then:
             bytecode == [
                     new Bytecode.IntArg(Opcodes.ALOAD, 0),
@@ -62,7 +62,7 @@ class StatementGeneratorTest extends Specification {
                     (TWO): new Symbol.MethodParameter(3, Type.number)
             ], outerClass())
         when:
-            List<Bytecode> bytecode = generator.generate(statement, methodParameters)
+            List<Bytecode> bytecode = generator.generate(statement, methodParameters).bytecode
         then:
                     bytecode[0] == new Bytecode.IntArg(Opcodes.ALOAD, 0)
                     bytecode[1] == new Bytecode.IntArg(DLOAD, 1)
