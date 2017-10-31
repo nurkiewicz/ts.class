@@ -14,7 +14,7 @@ import spock.lang.Unroll
 
 import static com.google.common.collect.ImmutableList.of
 import static com.nurkiewicz.tsclass.StatementBuilder.block
-import static com.nurkiewicz.tsclass.parser.ast.Return.ret
+import static com.nurkiewicz.tsclass.StatementBuilder.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.add
 import static com.nurkiewicz.tsclass.parser.ast.expr.AdditiveExpression.sub
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident

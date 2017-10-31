@@ -8,7 +8,7 @@ import spock.lang.Specification
 
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ifs
-import static com.nurkiewicz.tsclass.parser.ast.Return.ret
+import static com.nurkiewicz.tsclass.StatementBuilder.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 import static com.nurkiewicz.tsclass.parser.ast.expr.Neg.neg
 import static com.nurkiewicz.tsclass.parser.ast.expr.NumberLiteral.num

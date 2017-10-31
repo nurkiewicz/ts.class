@@ -12,7 +12,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.nurkiewicz.tsclass.StatementBuilder.block
-import static com.nurkiewicz.tsclass.parser.ast.Return.ret
+import static com.nurkiewicz.tsclass.StatementBuilder.ret
 import static com.nurkiewicz.tsclass.parser.ast.expr.Identifier.ident
 import static org.objectweb.asm.Opcodes.DLOAD
 import static org.objectweb.asm.Opcodes.DRETURN

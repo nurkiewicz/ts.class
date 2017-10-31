@@ -2,6 +2,7 @@ package com.nurkiewicz.tsclass
 
 import com.nurkiewicz.tsclass.parser.ast.Block
 import com.nurkiewicz.tsclass.parser.ast.If
+import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Statement
 import com.nurkiewicz.tsclass.parser.ast.expr.Expression
 
@@ -13,6 +14,10 @@ class StatementBuilder {
 
     static Block block(List<Statement> statements = []) {
         return new Block(statements)
+    }
+
+    static Return ret(Expression expression) {
+        return new Return(expression)
     }
 
 }

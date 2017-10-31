@@ -8,10 +8,6 @@ data class Return(val expression: Expression): Statement() {
 
     override fun toString() = "return $expression"
 
-    companion object {
-        @JvmStatic
-        fun ret(expression: Expression) = Return(expression)
-    }
 }
 
 data class If(val condition: Expression, val block: Statement, val elseBlock: Statement?): Statement()
