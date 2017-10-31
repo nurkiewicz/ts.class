@@ -61,6 +61,7 @@ class ExpressionGenerator {
         val symbol = tab.lookup(expression.name)
         return when (symbol) {
             is Symbol.MethodParameter -> listOf(Bytecode.IntArg(DLOAD, symbol.offset))
+            is Symbol.LocalVariable -> listOf(Bytecode.IntArg(DLOAD, symbol.offset))
             null -> throw CompilationError("Unknown symbol ${expression.name}")
         }
     }

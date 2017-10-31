@@ -1,9 +1,9 @@
 package com.nurkiewicz.tsclass.parser.ast
 
-data class Type (val name: String) {
+data class Type (val name: String, val stackSize: Int) {
 
     companion object {
-        val number = Type("number")
+        val number = Type("number", 2)
     }
 
     fun toJavaType(): org.objectweb.asm.Type {

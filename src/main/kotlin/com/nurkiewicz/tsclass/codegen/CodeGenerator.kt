@@ -31,7 +31,7 @@ class CodeGenerator(
     private fun generateMethod(writer: ClassWriter, m: Method, classSymbols: SymbolTable) {
         val mv = writer.visitMethod(ACC_PUBLIC, m.name, m.methodDescriptor(), null, null)
         val methodSymbols = MethodParameters(m, classSymbols)
-        val code: List<Bytecode> = m.body.statements.flatMap { statementGenerator.generate(it, methodSymbols) }
+        val code: List<Bytecode> = statementGenerator.generate(m.body, methodSymbols).bytecode
         methodEmitter.emitBytecode(mv, code)
         mv.visitMaxs(0, 0)
         mv.visitEnd()
@@ -49,7 +49,6 @@ class CodeGenerator(
     companion object {
         @JvmStatic
         fun build() = CodeGenerator(StatementGenerator.build(), MethodEmitter.build())
-
     }
 
 }

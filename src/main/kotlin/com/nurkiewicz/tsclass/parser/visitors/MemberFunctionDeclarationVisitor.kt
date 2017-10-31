@@ -28,7 +28,7 @@ internal class MemberFunctionDeclarationVisitor : TypeScriptBaseVisitor<Method>(
     }
 
     private fun typeOf(typeCtx: TypeScriptParser.TypeContext?): Type {
-        return Type(if (typeCtx != null) typeCtx.typeName().text else "void")
+        return Type(if (typeCtx != null) typeCtx.typeName().text else "void", 2)
     }
 
     private fun parseBody(ctx: TypeScriptParser.MemberFunctionDeclarationContext) = Block(

@@ -7,17 +7,18 @@ import org.objectweb.asm.Opcodes
 
 class IfGenerator(private val expressionGenerator: ExpressionGenerator ) {
 
-    fun generate(ifs: If, tab: SymbolTable, statementGenerator: StatementGenerator): List<Bytecode> {
+    fun generate(ifs: If, tab: SymbolTable, statementGenerator: StatementGenerator): GenCode {
         val condition = expressionGenerator.generate(ifs.condition, tab)
         val elseLabelPlace = Bytecode.LabelPlace((condition.last() as Bytecode.Jump).label)
         val ifBlock = blockToBytecode(ifs.block, tab, statementGenerator)
-        val affirmativePart = condition + ifBlock
+        val affirmativePart = ifBlock.prepend(condition)
         return if (ifs.elseBlock != null) {
             val endOfElse = Label()
             val elseBytecode = blockToBytecode(ifs.elseBlock, tab, statementGenerator)
-            affirmativePart + Bytecode.Jump(Opcodes.GOTO, endOfElse) + elseLabelPlace + elseBytecode + Bytecode.LabelPlace(endOfElse)
+            val negativePart = listOf(Bytecode.Jump(Opcodes.GOTO, endOfElse)) + elseLabelPlace + elseBytecode.bytecode + Bytecode.LabelPlace(endOfElse)
+            affirmativePart.append(negativePart)
         } else {
-            affirmativePart + elseLabelPlace
+            affirmativePart.append(listOf(elseLabelPlace))
         }
     }
 

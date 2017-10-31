@@ -1,12 +1,9 @@
 package com.nurkiewicz.tsclass.codegen
 
 import com.nurkiewicz.tsclass.CompilationError
-import com.nurkiewicz.tsclass.codegen.asm.CallEmitter
-import com.nurkiewicz.tsclass.codegen.asm.MethodEmitter
 import com.nurkiewicz.tsclass.parser.ast.ClassDescriptor
 import com.nurkiewicz.tsclass.parser.ast.Method
 import com.nurkiewicz.tsclass.parser.ast.Parameter
-import com.nurkiewicz.tsclass.parser.ast.Return
 import com.nurkiewicz.tsclass.parser.ast.Type
 import spock.lang.Specification
 import spock.lang.Subject
@@ -27,10 +24,7 @@ import static java.lang.Math.PI
 class CodeGeneratorTest extends Specification {
 
     @Subject
-    private CodeGenerator generator = new CodeGenerator(
-            StatementGenerator.build(),
-            new MethodEmitter(new CallEmitter())
-    )
+    private CodeGenerator generator = CodeGenerator.build()
 
     private static Class<?> classFrom(byte[] bytes) {
         new ByteArrayClassLoader().loadClass(bytes)
@@ -38,7 +32,7 @@ class CodeGeneratorTest extends Specification {
 
     def 'should generate simple class'() {
         given:
-            Method methodReturning42 = new Method('answer', Type.number, of(), block([new Return(num(42))]))
+            Method methodReturning42 = new Method('answer', Type.number, of(), block([ret(num(42))]))
             def cls = new ClassDescriptor('Greeter', of(), of(methodReturning42))
 
         when:
@@ -57,7 +51,7 @@ class CodeGeneratorTest extends Specification {
                     'identity',
                     Type.number,
                     of(new Parameter('input', Type.number)),
-                    block([new Return(ident('input'))])
+                    block([ret(ident('input'))])
             )
             def cls = new ClassDescriptor('Ident', of(), of(identityFunction))
 
@@ -79,7 +73,7 @@ class CodeGeneratorTest extends Specification {
                             new Parameter('lt', Type.number),
                             new Parameter('rt', Type.number)
                     ),
-                    block([new Return(add(ident('lt'), ident('rt')))])  //return lt + rt
+                    block([ret(add(ident('lt'), ident('rt')))])  //return lt + rt
             )
             def cls = new ClassDescriptor('Cls', of(), of(identityFunction))
 
@@ -104,7 +98,7 @@ class CodeGeneratorTest extends Specification {
                                     new Parameter('c', Type.number),
                                     new Parameter('d', Type.number),
                             ),
-                            block([new Return(add(
+                            block([ret(add(
                                     ident('a'),
                                     mul(
                                             ident('b'),
