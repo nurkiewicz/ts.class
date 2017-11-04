@@ -6,6 +6,7 @@ import com.nurkiewicz.tsclass.parser.ast.Method
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.ClassWriter.COMPUTE_FRAMES
 import org.objectweb.asm.ClassWriter.COMPUTE_MAXS
+import org.objectweb.asm.Opcodes.ACC_PRIVATE
 import org.objectweb.asm.Opcodes.ACC_PUBLIC
 import org.objectweb.asm.Opcodes.ACC_SUPER
 import org.objectweb.asm.Opcodes.ALOAD
@@ -21,11 +22,20 @@ class CodeGenerator(
         val writer = ClassWriter(COMPUTE_MAXS or COMPUTE_FRAMES)
         writer.visit(49, ACC_PUBLIC or ACC_SUPER, cls.name, null, "java/lang/Object", null)
         writer.visitSource(cls.name + ".ts", null)
+        classFields(cls, writer)
         defaultConstructor(writer)
         val classSymbols = ClassSymbols(cls, Empty())
         cls.methods.forEach { m -> generateMethod(writer, m, classSymbols) }
         writer.visitEnd()
         return writer.toByteArray()
+    }
+
+    private fun classFields(cls: ClassDescriptor, writer: ClassWriter) {
+        cls.fields.forEach { field ->
+            writer
+                    .visitField(ACC_PRIVATE, field.name, field.type.toJavaType().descriptor, null, null)
+                    .visitEnd()
+        }
     }
 
     private fun generateMethod(writer: ClassWriter, m: Method, classSymbols: SymbolTable) {

@@ -156,7 +156,7 @@ functionExpression //Modified from base JavaScript implementation for TS
 assignmentExpression //Modified to add in arrowFunctionExpression for TS
 	: conditionalExpression
 	| leftHandSideExpression assignmentOperator assignmentExpression
-        | arrowFunctionExpression
+	| arrowFunctionExpression
 	;
 
 arrowFunctionExpression

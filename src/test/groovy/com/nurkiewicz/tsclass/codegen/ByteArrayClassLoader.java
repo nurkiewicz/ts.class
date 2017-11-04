@@ -10,4 +10,9 @@ public class ByteArrayClassLoader extends ClassLoader {
         return defineClass(null, classBytes, 0, classBytes.length);
     }
 
+    static Class<?> classFrom(byte[] bytes) {
+        return new ByteArrayClassLoader().loadClass(bytes);
+    }
+
+
 }

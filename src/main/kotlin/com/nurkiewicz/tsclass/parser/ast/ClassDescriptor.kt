@@ -10,4 +10,4 @@ data class ClassDescriptor(
 
 }
 
-data class Field(val name: String, val type: String)
+data class Field(val name: String, val type: Type)

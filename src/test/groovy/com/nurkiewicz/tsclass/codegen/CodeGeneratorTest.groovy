@@ -18,6 +18,7 @@ import static com.nurkiewicz.tsclass.ExpressionBuilder.num
 import static com.nurkiewicz.tsclass.ExpressionBuilder.sub
 import static com.nurkiewicz.tsclass.StatementBuilder.block
 import static com.nurkiewicz.tsclass.StatementBuilder.ret
+import static com.nurkiewicz.tsclass.codegen.ByteArrayClassLoader.classFrom
 import static java.lang.Math.PI
 
 @Unroll
@@ -26,9 +27,6 @@ class CodeGeneratorTest extends Specification {
     @Subject
     private CodeGenerator generator = CodeGenerator.build()
 
-    private static Class<?> classFrom(byte[] bytes) {
-        new ByteArrayClassLoader().loadClass(bytes)
-    }
 
     def 'should generate simple class'() {
         given:
