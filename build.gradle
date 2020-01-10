@@ -35,7 +35,7 @@ dependencies {
     antlr "org.antlr:antlr4:4.7"
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'commons-io:commons-io:2.5'
-    compile 'com.google.guava:guava:21.0'
+    compile 'com.google.guava:guava:23.0'
     compile 'org.ow2.asm:asm:5.2'
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
